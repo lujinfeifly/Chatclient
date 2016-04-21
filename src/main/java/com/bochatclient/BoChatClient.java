@@ -61,7 +61,7 @@ public class BoChatClient {
 	}
 
 	/**
-	 * ������Ϣ���յĻص�
+	 * 
 	 * @param msgListener
 	 */
 	public void setMsgListener(MsgListener msgListener) {
@@ -73,7 +73,7 @@ public class BoChatClient {
 	}
 
 	/**
-	 * ���÷�������ip�Ͷ˿�
+	 * 
 	 * @param ip
 	 * @param port
 	 */
@@ -154,16 +154,16 @@ public class BoChatClient {
 								msgListener.onReciveMsg(packet);
 							}
 							break;
-						case 1:        // ͨ�ô���
+						case 1:        //
 							errorListener.onError(1);
 							break;
-						case 2:        // �������
+						case 2:        //
 							break;
 						case 401001:
 							break;
 						case 401002:
 							break;
-						case 401005:   // ��Ч����id
+						case 401005:   //
 							break;
 						case 401014:    // 
 							break;
