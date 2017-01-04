@@ -39,7 +39,7 @@ public class InputCircleBuffer {
 	}
 	
 	public int readFromInputStream(InputStream stream) throws BoException, IOException {
-		if(leftSize() > 20) { // Èç¹ûÊ£Óà¿Õ¼ä´óÓÚ
+		if(leftSize() > 20) { // ï¿½ï¿½ï¿½Ê£ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½
 			int firstReadLen = (end >= begin)? (LEN - end) : (begin - end - 1);
 			int readbyte = stream.read(buffer, end, firstReadLen);
 //			System.out.println("lem:" + end);
@@ -48,9 +48,9 @@ public class InputCircleBuffer {
 			}
 			int secondReadLen = (end >= begin)? begin - 1: 0;
 			int readbyte2 = 0;
-			if(firstReadLen > readbyte) { // ¿Õ¼ä×ã¹»
+			if(firstReadLen > readbyte) { // ï¿½Õ¼ï¿½ï¿½ã¹»
 				end += readbyte;
-			}else { // ¿Õ¼ä²»¹»
+			}else { // ï¿½Õ¼ä²»ï¿½ï¿½
 				if(secondReadLen > 0) {
 					readbyte2 = stream.read(buffer, 0, secondReadLen);
 					if(readbyte2 == -1) {
@@ -85,8 +85,6 @@ public class InputCircleBuffer {
 		if(len > size){
 			return null;
 		}
-		
-//		System.out.println(a+","+ b +","+c +","+d);
 
 		byte[] tempcontent = new byte[len - 8];
 		for(int i=0;i<len - 8;i++ ) {
@@ -98,8 +96,11 @@ public class InputCircleBuffer {
 		
 		byte[] ss = URLEncode.unjzlib(tempcontent);
 		
+		
+		
 		PacketBase packet = null;
 		try {
+			System.out.println("action:" + action+", type:"+ type + "," + new String(ss, "UTF-8"));
 			packet = PacketIntent.getPacket(action, type, new String(ss, "UTF-8"));
 		} catch (UnsupportedEncodingException e1) {
 			e1.printStackTrace();

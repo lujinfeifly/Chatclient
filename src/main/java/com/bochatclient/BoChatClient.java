@@ -113,6 +113,22 @@ public class BoChatClient {
 			e.printStackTrace();
 		}
 	}
+	
+	public void sendQueryList(String pno, String rpp ) {
+		try {
+			dos.write(getListPacket(pno, rpp));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void sendQueryUserMsg(String uid) {
+		try {
+			dos.write(getUserInfoPacket(uid));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void connect() {
 		try {
@@ -302,4 +318,46 @@ public class BoChatClient {
 		}
 		return ret;
 	}
+	
+	// 获取聊天室成员列表请求包
+	public byte[] getListPacket(String pno, String rpp ) {
+		byte[] packetContent = (new Gson()).toJson(new QueryListBean(loginBean.getRid(), loginBean.getUid(), pno, rpp)).getBytes();
+		int len = packetContent.length;
+		byte[] ret = new byte[8 + len];
+
+		int headint = len + 8;
+		ret[0] = (byte) (headint >> 24 & 0xff);
+		ret[1] = (byte) (headint >> 16 & 0xff);
+		ret[2] = (byte) (headint >> 8 & 0xff);
+		ret[3] = (byte) (headint & 0xff);
+		
+		ret[4] = 0;
+		ret[5] = 6;
+		
+		for (int i = 0; i < len; i++) {
+			ret[8 + i] = packetContent[i];
+		}
+		return ret;
+	}
+	
+	public byte[] getUserInfoPacket(String uid) {
+		byte[] packetContent = (new Gson()).toJson(new UserMsgBean(loginBean.getRid(), loginBean.getUid(), uid)).getBytes();
+		int len = packetContent.length;
+		byte[] ret = new byte[8 + len];
+
+		int headint = len + 8;
+		ret[0] = (byte) (headint >> 24 & 0xff);
+		ret[1] = (byte) (headint >> 16 & 0xff);
+		ret[2] = (byte) (headint >> 8 & 0xff);
+		ret[3] = (byte) (headint & 0xff);
+		
+		ret[4] = 4;
+		ret[5] = 2;
+		
+		for (int i = 0; i < len; i++) {
+			ret[8 + i] = packetContent[i];
+		}
+		return ret;
+	}
+	
 }

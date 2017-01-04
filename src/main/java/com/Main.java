@@ -15,8 +15,8 @@ public class Main implements MsgListener, ErrorListener{
 	public static void main(String[] args) {
 		
 		Main a = new Main();
-		BoChatClient client = new BoChatClient("10.127.132.81", 6200);
-		UserEnterBean bean = new UserEnterBean("2323", "hehe", "2200068411", "hehe");
+		BoChatClient client = new BoChatClient("10.127.129.120", 6200);
+		UserEnterBean bean = new UserEnterBean("2323", "hehe", "2200068409", "hehe");
 		client.setMsgListener(a);
 		client.setErrorListener(a);
 		client.setLoginBean(bean);
@@ -30,7 +30,9 @@ public class Main implements MsgListener, ErrorListener{
 		} catch (InterruptedException e) {
 		}
 		
-		client.sendMessage("ssssssssssssssssssss");
+//		client.sendMessage("ssssssssssssssssssss");
+		client.sendQueryList("1", "40");
+		client.sendQueryUserMsg("672030622");
 
 		System.out.println("Enter Ok!");
 	}

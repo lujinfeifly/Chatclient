@@ -20,7 +20,7 @@ public class PacketSysMsg extends PacketBase{
 		nickName = "系统消息";
 		
 		JSONObject msgjo = (JSONObject)job.getJSONArray("msg").get(0);
-		String typeStr = msgjo.getString("msgtype");
+		String typeStr = job.getString("escapeflag");
 		
 		String ct = msgjo.getString("ct");
 		String jsonct = "{}";
