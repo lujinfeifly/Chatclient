@@ -11,7 +11,7 @@ import com.bochatclient.packet.PacketIntent;
 
 public class InputCircleBuffer {
 	
-	private static int LEN = 1480;
+	private static int LEN = 10240;
 	
 	private byte[] buffer = new byte[LEN];
 	
@@ -42,17 +42,19 @@ public class InputCircleBuffer {
 		if(leftSize() > 20) { // ���ʣ��ռ����
 			int firstReadLen = (end >= begin)? (LEN - end) : (begin - end - 1);
 			int readbyte = stream.read(buffer, end, firstReadLen);
-//			System.out.println("lem:" + end);
+//			System.out.println("lem:" + readbyte + "," + end + "," + firstReadLen);
 			if(readbyte == -1) {
 				throw new BoException(100,"Server disconnected.");
 			}
 			int secondReadLen = (end >= begin)? begin - 1: 0;
 			int readbyte2 = 0;
+			end += readbyte;
 			if(firstReadLen > readbyte) { // �ռ��㹻
-				end += readbyte;
+				//end += readbyte;
 			}else { // �ռ䲻��
 				if(secondReadLen > 0) {
 					readbyte2 = stream.read(buffer, 0, secondReadLen);
+//					System.out.println("lem2:" + readbyte2 + "," + 0 + "," + secondReadLen);
 					if(readbyte2 == -1) {
 						throw new BoException(100,"Server disconnected.");
 					} else if(readbyte2 == 0) {
@@ -82,9 +84,18 @@ public class InputCircleBuffer {
 		int h = buffer[(begin + 7)%LEN]&0xff;
 		
 		int len = (a<<24) + (b<<16) + (c<<8) + d;
+		
+//		System.out.println("hduhuhuhuhuh:"+ begin + ",,,,,"       + a + "," + b + ","+ c + "," + d + ",");
+		
+		if(len>2000 || len<0) {
+			int s = 1;
+			int v = 7;
+			v = s;
+		}
 		if(len > size){
 			return null;
 		}
+		
 
 		byte[] tempcontent = new byte[len - 8];
 		for(int i=0;i<len - 8;i++ ) {
@@ -94,13 +105,17 @@ public class InputCircleBuffer {
 		begin += len;
 		begin %= LEN;
 		
-		byte[] ss = URLEncode.unjzlib(tempcontent);
 		
+		byte[] ss = URLEncode.unjzlib(tempcontent);
+		try{
+			System.out.println("action:" + action+", type:"+ type + "," + new String(ss, "UTF-8"));
+		} catch(Exception ex) {
+			
+		}
 		
 		
 		PacketBase packet = null;
 		try {
-			System.out.println("action:" + action+", type:"+ type + "," + new String(ss, "UTF-8"));
 			packet = PacketIntent.getPacket(action, type, new String(ss, "UTF-8"));
 		} catch (UnsupportedEncodingException e1) {
 			e1.printStackTrace();

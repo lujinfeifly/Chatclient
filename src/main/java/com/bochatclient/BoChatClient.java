@@ -160,6 +160,8 @@ public class BoChatClient {
 			while (!bStop) {
 				synchronized (lock) {
 					try{
+						Thread.sleep(90);
+						
 						buffer.readFromInputStream(dis);
 						PacketBase packet = buffer.getPacket();
 							
@@ -179,7 +181,9 @@ public class BoChatClient {
 							break;
 						case 401002:
 							break;
-						case 401005:   //
+						case 401005:   // 聊天室没有开
+							bStop = true;                // 暂停循环
+							errorListener.onError(401005);
 							break;
 						case 401014:    // 
 							break;
@@ -244,6 +248,7 @@ public class BoChatClient {
 					}catch(BoException be) {
 						errorListener.onError(2);
 						break;
+					}catch(Exception be) {
 					}
 				}
 				
