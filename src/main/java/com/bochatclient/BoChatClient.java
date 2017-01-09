@@ -160,7 +160,7 @@ public class BoChatClient {
 			while (!bStop) {
 				synchronized (lock) {
 					try{
-						Thread.sleep(90);
+						Thread.sleep(40);
 						
 						buffer.readFromInputStream(dis);
 						PacketBase packet = buffer.getPacket();
