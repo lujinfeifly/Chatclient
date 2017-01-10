@@ -8,7 +8,7 @@ the main.java is the file that you can use it for reference
 
 连接
 // 创建连接体
-BoChatClient client = new BoChatClient("10.127.129.120", 6200);
+BoChatClient client = new BoChatClient("10.127.129.120", 6200);</ br>
 // 创建登录用户信息
 UserEnterBean bean = new UserEnterBean("2323", "hehe", "2200068409", "hehe");
 // 设置登录用户信息
