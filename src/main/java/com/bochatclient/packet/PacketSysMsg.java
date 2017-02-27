@@ -1,11 +1,11 @@
 package com.bochatclient.packet;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
+import java.util.List;
 
-import com.bochatclient.URLEncode;
-
-import net.sf.json.JSONObject;
+import com.bochatclient.bean.BaseBean;
+import com.bochatclient.bean.MsgBean;
+import com.bochatclient.bean.SysBeanCT;
+import com.bochatclient.utils.GsonUtil;
 
 public class PacketSysMsg extends PacketBase{
 	
@@ -15,21 +15,27 @@ public class PacketSysMsg extends PacketBase{
 	}
 
 	public PacketSysMsg(String json) {
-		super(json);
-		JSONObject job = JSONObject.fromObject(json);
-		nickName = "系统消息";
 		
-		JSONObject msgjo = (JSONObject)job.getJSONArray("msg").get(0);
-		String typeStr = job.getString("escapeflag");
+		BaseBean<MsgBean<SysBeanCT>> bb = GsonUtil.GsonToBean(json, BaseBean.class);
+		int retCode = Integer.parseInt(bb.getRetcode());
+		this.retcode = retCode;
 		
-		String ct = msgjo.getString("ct");
-		String jsonct = "{}";
-		if(ct != null) {
-			jsonct = URLEncode.unescape(ct);
-
-			
-			JSONObject jobct = JSONObject.fromObject(jsonct);
-			msg = jobct.getString("mes");
+		System.out.println("gift:"+json);
+		
+		// 礼物中只会出现get(0),也就是只有一个元素
+		
+		List<MsgBean<SysBeanCT>> list = bb.getMsg();
+		MsgBean<SysBeanCT> gb = null;
+		if(list.size()>0){
+			gb = list.get(0);
+		}
+		if(gb==null){
+			return;
+		}
+		
+		SysBeanCT gbct = gb.getCt();
+		if(gbct != null) {
+			msg = gbct.getMes();
 		}
 	}
 }

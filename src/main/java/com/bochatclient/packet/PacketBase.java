@@ -1,24 +1,27 @@
 package com.bochatclient.packet;
 
-import net.sf.json.JSONObject;
 
 public class PacketBase {
 	
 	protected String nickName;
 	protected String msg;
 	protected String userID;
-	
 	protected int retcode;
 	
 	
-	
+	public PacketBase() {
+		super();
+	}
+
 	public int getRetcode() {
 		return retcode;
 	}
 
-	public PacketBase(String json) {
-		JSONObject job = JSONObject.fromObject(json);
-		retcode = Integer.parseInt(job.getString("retcode"));
+	public PacketBase(String retcode) {
+		System.out.println("PacketBase retcode==="+retcode);
+//		JSONObject job = JSONObject.fromObject(retcode);
+//		this.retcode = job.getInt("retcode");
+		this.retcode = Integer.parseInt(retcode);
 	}
 	
 	public boolean isMsg() {

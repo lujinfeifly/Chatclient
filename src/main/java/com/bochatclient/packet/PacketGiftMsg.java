@@ -1,8 +1,11 @@
 package com.bochatclient.packet;
 
-import com.bochatclient.URLEncode;
+import java.util.List;
 
-import net.sf.json.JSONObject;
+import com.bochatclient.bean.BaseBean;
+import com.bochatclient.bean.GiftBeanCT;
+import com.bochatclient.bean.MsgBean;
+import com.bochatclient.utils.GsonUtil;
 
 public class PacketGiftMsg extends PacketBase {
 	@Override
@@ -11,25 +14,31 @@ public class PacketGiftMsg extends PacketBase {
 	}
 
 	public PacketGiftMsg(String json) {
-		super(json);
-		JSONObject job = JSONObject.fromObject(json);
+		
+		BaseBean<MsgBean<GiftBeanCT>> bb = GsonUtil.GsonToBean(json, BaseBean.class);
+		int retCode = Integer.parseInt(bb.getRetcode());
+		this.retcode = retCode;
+		
+		System.out.println("gift:"+json);
 		
 		// 礼物中只会出现get(0),也就是只有一个元素
-		JSONObject msgjo = (JSONObject)job.getJSONArray("msg").get(0);
-		String typeStr = job.getString("escapeflag");
 		
-		String ct = msgjo.getString("ct");
-		String jsonct = "{}";
-		if(ct != null) {
-			jsonct = URLEncode.unescape(ct);
-			
-			System.out.println(jsonct);
-
-			JSONObject jobct = JSONObject.fromObject(jsonct);
+		List<MsgBean<GiftBeanCT>> list = bb.getMsg();
+		MsgBean<GiftBeanCT> gb = null;
+		if(list.size()>0){
+			gb = list.get(0);
+		}
+		if(gb==null){
+			return;
+		}
+		
+		GiftBeanCT gbct = gb.getCt();
+		if(gbct != null) {
+			System.out.println(gbct.toString());
 			// 发送人id
-			userID = jobct.getString("bb");
-			nickName = jobct.getString("b9");
-			msg = "我送了" + jobct.getString("q");
+			userID = gbct.getBb();
+			nickName = gbct.getB9();
+			msg = "我送了" + gbct.getQ();
 		}
 	}
 }
