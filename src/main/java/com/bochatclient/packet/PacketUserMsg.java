@@ -7,6 +7,7 @@ import com.bochatclient.bean.BaseBean;
 import com.bochatclient.bean.UserMsgBean;
 import com.bochatclient.bean.UserMsgBeanCT;
 import com.bochatclient.utils.GsonUtil;
+import com.google.gson.internal.StringMap;
 
 public class PacketUserMsg extends PacketBase{
 	
@@ -14,7 +15,10 @@ public class PacketUserMsg extends PacketBase{
 	
 	public PacketUserMsg(String json) { 
 		
-		BaseBean<UserMsgBean<UserMsgBeanCT>> bb = GsonUtil.GsonToBean(json, BaseBean.class);
+		
+		System.out.println("PacketUserMsg:"+json);
+		
+		BaseBean<StringMap<StringMap<String>>> bb = GsonUtil.GsonToBean(json, BaseBean.class);
 		int retCode = Integer.parseInt(bb.getRetcode());
 		this.retcode = retCode;
 		
@@ -22,21 +26,21 @@ public class PacketUserMsg extends PacketBase{
 		
 		// 礼物中只会出现get(0),也就是只有一个元素
 		
-		List<UserMsgBean<UserMsgBeanCT>> list = bb.getMsg();
-		UserMsgBean<UserMsgBeanCT> gb = null;
+		List<StringMap<StringMap<String>>> list = bb.getMsg();
+		StringMap<StringMap<String>> gb = null;
 		if(list.size()>0){
 			gb = list.get(0);
 		}
 		if(gb==null){
 			return;
 		}
-		String typeStr = gb.getB();
-		msg = gb.getCt();
+		String typeStr = gb.get("b").toString();
+		msg = gb.get("ct").toString();
 		
-		UserMsgBeanCT gbct = gb.getE();
+		StringMap<String> gbct = gb.get("e");
 		if(gbct != null) {
-			userID = gbct.getBb();
-			nickName = gbct.getP();
+			userID = gbct.get("bb");
+			nickName = gbct.get("p");
 		}
 		switch(Integer.parseInt(typeStr)) {
 		case 0:  // 公开说

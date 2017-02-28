@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.bochatclient.bean.BaseBean;
+import com.bochatclient.bean.UserMsgBean;
+import com.bochatclient.bean.UserMsgBeanCT;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.google.gson.internal.StringMap;
 import com.google.gson.reflect.TypeToken;
 
 public class GsonUtil {
@@ -45,8 +49,8 @@ public class GsonUtil {
     public static <T> T GsonToBean(String gsonString, Class<T> cls) {
         T t = null;
         if (gson != null) {
-            t = gson.fromJson(gsonString, cls);
         }
+        t = gson.fromJson(gsonString, cls);
         return t;
     }
 
@@ -117,14 +121,29 @@ public class GsonUtil {
     }
     
     public static void main(String[] args) {
-//    	String jsonStr = "{\'retcode\':\'000000\',\'retmsg\':\'OK\',\'escapeflag\':\'1\',\'msg\':\'1\',\'v\':0}";
+//    	String jsonStr = '{\'retcode\':\'000000\',\'retmsg\':\'OK\',\'escapeflag\':\'1\',\'msg\':\'1\',\'v\':0}';
     	
-    	String jsonStr = "{'retcode':'000000','retmsg':'OK','rettime':'14:54','escapeflag':'0','v':'0','msg':[{'ct':[{'e':3,'c':0,'d':1,'b':0,'a':2},{'h':[{'o':0,'h':0,'a2':0,'a8':0,'bb':'285461808','p':'dxjtest285461808','j':null,'x':1,'a1':null,'g':'','l':false,'b1':null,'b3':null,'y':285461808,'m':0,'c3':0},{'o':0,'h':0,'a2':0,'a8':0,'bb':'846659298','p':'dxjtest846659298','j':null,'x':1,'a1':null,'g':'','l':false,'b1':null,'b3':null,'y':846659298,'m':0,'c3':0}],'g':[{'o':16,'h':0,'a2':10000000000000,'a8':50,'bb':'672030622','p':'672030622@许愿树','j':'http://image.cdn.tllm.cxg.changyou.com/show/20151026/images/head/anchorDefault.jpg','x':1,'a1':'1,3','g':'{\'b7\':\'\',\'b9\':0}','l':false,'b1':'许愿树','b3':0,'y':-1,'m':0,'c3':0}],'f':[{'o':16,'h':0,'a2':10000000000000,'a8':50,'bb':'672030622','p':'672030622@许愿树','j':'http://image.cdn.tllm.cxg.changyou.com/show/20151026/images/head/anchorDefault.jpg','x':1,'a1':'1,3','g':'{\'b7\':\'\',\'b9\':0}','l':false,'b1':'许愿树','b3':0,'y':-1,'m':0,'c3':0}]}],'a':'SendMsg','c':'6','d':'14:54','b':'0'}]}";
     	
+    	
+    	String jsonStr = "{'retcode':'000000','retmsg':'OK','rettime':'17:59','escapeflag':'0','v':'0','msg':[{'a':'SendMsg','b':'0','ct':'111111','c':'2','d':'17:59','e':{'q':'null','i':0,'o':0,'h':0,'a':'0','a2':301000000000,'a8':0,'bb':'85168','p':'边好9527@龙腾天下','a9':0,'w':1,'u':1,'j':'52','x':1,'a1':'','k':'114.247.160.239','r':'0','g':'{\'b7\':\'\',\'b9\':0}','s':null,'f':'0','a5':0,'a4':'23470201128EB61D','c':'','l':false,'b1':'龙腾天下','z':33,'e':750,'t':3,'d':null,'b3':0,'b2':0,'v':1,'y':89795,'m':0,'a3':0,'b4':'','c3':'0','aa':'85168','a7':'边好9527@龙腾天下'},'f':null}],'isFirst':0}";
+    	
+//    	jsonStr="{'retcode':'000000','retmsg':'OK','rettime':'17:59','escapeflag':'0','v':'0','msg':[{'a':'SendMsg','b':'0','ct':'111111','c':'2','d':'17:59','f':null}],'isFirst':0}";
+//    	
+//    	jsonStr="{'retcode':'000000','retmsg':'OK','rettime':'17:59','escapeflag':'0','v':'0','msg':[{'a':'SendMsg','b':'0','ct':'111111','c':'2','d':'17:59','e':{'q':'null','i':0,'o':0,'h':0,'a':'0','a2':301000000000,'a8':0,'bb':'85168','p':'边好9527@龙腾天下','a9':0,'w':1,'u':1,'j':'52','x':1,'a1':'','k':'114.247.160.239','r':'0','g':'123','s':null,'f':'0','a5':0,'a4':'23470201128EB61D','c':'','l':false,'b1':'龙腾天下','z':33,'e':750,'t':3,'d':null,'b3':0,'b2':0,'v':1,'y':89795,'m':0,'a3':0,'b4':'','c3':'0','aa':'85168','a7':'边好9527@龙腾天下'},'f':null}],'isFirst':0}";
+    	
+    	BaseBean<StringMap<StringMap<String>>> bb = GsonUtil.GsonToBean(jsonStr, BaseBean.class);
+		int retCode = Integer.parseInt(bb.getRetcode());
+		
+		System.out.println("gift:"+retCode);
+    	
+		StringMap<StringMap<String>> sm = bb.getMsg().get(0);
+		
+		System.out.println(sm.get("e").get("p")+"--"+sm.get("ct"));
+		
 //    	Map<String,Object> map = GsonToMaps(jsonStr);
     	
 //    	for(String key:map.keySet()){
-//    		System.out.println(key+"----"+map.get(key).toString());
+//    		System.out.println(key+'----'+map.get(key).toString());
 //    	}
     	
     	

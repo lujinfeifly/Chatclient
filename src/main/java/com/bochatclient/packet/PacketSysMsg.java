@@ -6,6 +6,7 @@ import com.bochatclient.bean.BaseBean;
 import com.bochatclient.bean.MsgBean;
 import com.bochatclient.bean.SysBeanCT;
 import com.bochatclient.utils.GsonUtil;
+import com.google.gson.internal.StringMap;
 
 public class PacketSysMsg extends PacketBase{
 	
@@ -16,7 +17,7 @@ public class PacketSysMsg extends PacketBase{
 
 	public PacketSysMsg(String json) {
 		
-		BaseBean<MsgBean<SysBeanCT>> bb = GsonUtil.GsonToBean(json, BaseBean.class);
+		BaseBean<StringMap<StringMap<String>>> bb = GsonUtil.GsonToBean(json, BaseBean.class); 
 		int retCode = Integer.parseInt(bb.getRetcode());
 		this.retcode = retCode;
 		
@@ -24,8 +25,8 @@ public class PacketSysMsg extends PacketBase{
 		
 		// 礼物中只会出现get(0),也就是只有一个元素
 		
-		List<MsgBean<SysBeanCT>> list = bb.getMsg();
-		MsgBean<SysBeanCT> gb = null;
+		List<StringMap<StringMap<String>>> list = bb.getMsg();
+		StringMap<StringMap<String>> gb = null;
 		if(list.size()>0){
 			gb = list.get(0);
 		}
@@ -33,9 +34,9 @@ public class PacketSysMsg extends PacketBase{
 			return;
 		}
 		
-		SysBeanCT gbct = gb.getCt();
+		StringMap<String> gbct = gb.get("ct");
 		if(gbct != null) {
-			msg = gbct.getMes();
+			msg = gbct.get("mes");
 		}
 	}
 }
