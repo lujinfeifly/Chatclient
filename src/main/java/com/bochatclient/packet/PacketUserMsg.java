@@ -6,12 +6,9 @@ import java.util.List;
 import org.json.JSONObject;
 
 import com.bochatclient.bean.BaseBean;
-import com.bochatclient.bean.UserMsgBean;
-import com.bochatclient.bean.UserMsgBeanCT;
+import com.bochatclient.bean.DisplaySUserBean;
 
 public class PacketUserMsg extends PacketBase{
-	
-	
 	
 	public PacketUserMsg(String json) {
 		super(json);
@@ -22,6 +19,10 @@ public class PacketUserMsg extends PacketBase{
 		msg = msgjo.getString("ct");
 		userID = msgjo.getJSONObject("e").getString("bb");
 		nickName = msgjo.getJSONObject("e").getString("p");
+		
+		int fensi = msgjo.getJSONObject("e").getInt("b3");
+		int caifu = msgjo.getJSONObject("e").getInt("h");
+		user = new DisplaySUserBean(fensi, caifu);
 		
 		switch(Integer.parseInt(typeStr)) {
 		case 0:  // 公开说

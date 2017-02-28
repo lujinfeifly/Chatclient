@@ -6,8 +6,6 @@ import org.json.JSONObject;
 
 import com.bochatclient.URLEncode;
 import com.bochatclient.bean.BaseBean;
-import com.bochatclient.bean.MsgBean;
-import com.bochatclient.bean.SysBeanCT;
 
 public class PacketSysMsg extends PacketBase{
 	

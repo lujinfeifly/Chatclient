@@ -2,12 +2,16 @@ package com.bochatclient.packet;
 
 import org.json.JSONObject;
 
+import com.bochatclient.bean.DisplaySUserBean;
+
 public class PacketBase {
 	
 	protected String nickName;
 	protected String msg;
 	protected String userID;
 	protected int retcode;
+	
+	protected DisplaySUserBean user;
 	
 
 	public int getRetcode() {
@@ -33,6 +37,22 @@ public class PacketBase {
 	 */
 	public String[] toDisplayMsgPair() {
 		return new String[]{nickName, msg};
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public String getUserID() {
+		return userID;
+	}
+
+	public DisplaySUserBean getUser() {
+		return user;
 	}
 
 }
