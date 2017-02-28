@@ -1,5 +1,6 @@
 package com.bochatclient.packet;
 
+import org.json.JSONObject;
 
 public class PacketBase {
 	
@@ -8,20 +9,14 @@ public class PacketBase {
 	protected String userID;
 	protected int retcode;
 	
-	
-	public PacketBase() {
-		super();
-	}
 
 	public int getRetcode() {
 		return retcode;
 	}
-
-	public PacketBase(String retcode) {
-		System.out.println("PacketBase retcode==="+retcode);
-//		JSONObject job = JSONObject.fromObject(retcode);
-//		this.retcode = job.getInt("retcode");
-		this.retcode = Integer.parseInt(retcode);
+	
+	public PacketBase(String json) {
+		JSONObject job = new JSONObject(json);
+		retcode = Integer.parseInt(job.getString("retcode"));
 	}
 	
 	public boolean isMsg() {
