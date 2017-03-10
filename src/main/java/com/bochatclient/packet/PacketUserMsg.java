@@ -1,28 +1,36 @@
 package com.bochatclient.packet;
 
 
-import java.util.List;
-
 import org.json.JSONObject;
 
-import com.bochatclient.bean.BaseBean;
-import com.bochatclient.bean.DisplaySUserBean;
+import com.bochatclient.bean.ChatUserSimpleBean;
+import com.bochatclient.enums.PacketTypeConstant;
 
 public class PacketUserMsg extends PacketBase{
+	private String msg;
+	private ChatUserSimpleBean userBean;
 	
 	public PacketUserMsg(String json) {
-		super(json);
+		super();
+		this.type = PacketTypeConstant.USER_MSG;
+		
 		JSONObject job = new JSONObject(json);
+		this.retcode = Integer.parseInt(job.getString("retcode"));
 		
 		JSONObject msgjo = (JSONObject)job.getJSONArray("msg").get(0);
 		String typeStr = msgjo.getString("b");
 		msg = msgjo.getString("ct");
-		userID = msgjo.getJSONObject("e").getString("bb");
-		nickName = msgjo.getJSONObject("e").getString("p");
 		
+		String userID = msgjo.getJSONObject("e").getString("bb");
+		String nickName = msgjo.getJSONObject("e").getString("p");
 		int fensi = msgjo.getJSONObject("e").getInt("b3");
 		int caifu = msgjo.getJSONObject("e").getInt("h");
-		user = new DisplaySUserBean(fensi, caifu);
+
+		userBean = new ChatUserSimpleBean();
+		userBean.setUserId(Integer.parseInt(userID));
+		userBean.setUserName(nickName);
+		userBean.setFensiLevel(fensi);
+		userBean.setCaifuLevel(caifu);
 		
 		switch(Integer.parseInt(typeStr)) {
 		case 0:  // 公开说
@@ -33,9 +41,18 @@ public class PacketUserMsg extends PacketBase{
 			break;
 		}
 	}
-	
-	@Override
-	public boolean isMsg() {
-		return true;
+
+	public ChatUserSimpleBean getUserBean() {
+		return userBean;
 	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	@Override
+	public String toString() {
+		return "PacketUserMsg [retcode=" + retcode + ", type=" + type + ", msg=" + msg + ", userBean=" + userBean +"]";
+	}
+	
 }

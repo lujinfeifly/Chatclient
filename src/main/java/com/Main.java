@@ -1,10 +1,6 @@
 package com;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-
 import com.bochatclient.BoChatClient;
-import com.bochatclient.URLEncode;
 import com.bochatclient.UserEnterBean;
 import com.bochatclient.listener.ErrorListener;
 import com.bochatclient.listener.MsgListener;
@@ -32,7 +28,7 @@ public class Main implements MsgListener, ErrorListener{
 		
 //		client.sendMessage("ssssssssssssssssssss");
 		client.sendQueryList("1", "40");
-		client.sendQueryUserMsg("672030622");
+//		client.sendQueryUserMsg("672030622");
 
 		System.out.println("Enter Ok!");
 	}
@@ -42,8 +38,11 @@ public class Main implements MsgListener, ErrorListener{
 		
 	}
 
+		
 	public void onReciveMsg(PacketBase packet) {
-		System.out.println("~~~~~~~~~~~~~~~~~" + packet.toDisplayMsg());
+		System.out.println("packet -------------- "+packet.toString());
+		
+//		System.out.println("~~~~~~~~~~~~~~~~~" + packet.toDisplayMsg());
 		
 	}
 }

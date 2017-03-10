@@ -1,12 +1,8 @@
 package com.bochatclient;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.EOFException;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
@@ -15,9 +11,7 @@ import com.bochatclient.buffer.InputCircleBuffer;
 import com.bochatclient.listener.ErrorListener;
 import com.bochatclient.listener.MsgListener;
 import com.bochatclient.packet.PacketBase;
-import com.bochatclient.packet.PacketIntent;
 import com.google.gson.Gson;
-import com.jcraft.jzlib.ZInputStream;
 
 public class BoChatClient {
 	private String mIp;
@@ -168,9 +162,9 @@ public class BoChatClient {
 						if(packet != null)
 						switch(packet.getRetcode()) {
 						case 0:       
-							if(packet.isMsg()) {
+//							if(packet.isMsg()) {
 								msgListener.onReciveMsg(packet);
-							}
+//							}
 							break;
 						case 1:        //
 							errorListener.onError(1);

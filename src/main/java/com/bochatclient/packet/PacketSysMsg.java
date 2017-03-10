@@ -1,24 +1,24 @@
 package com.bochatclient.packet;
 
-import java.util.List;
-
 import org.json.JSONObject;
 
 import com.bochatclient.URLEncode;
-import com.bochatclient.bean.BaseBean;
+import com.bochatclient.enums.PacketTypeConstant;
 
 public class PacketSysMsg extends PacketBase{
 	
-	@Override
-	public boolean isMsg() {
-		return true;
-	}
-
+	private String msg;
+	private String sender;
+	
 	public PacketSysMsg(String json) {
 		
-		super(json);
+		super();
+		this.type = PacketTypeConstant.SYS_MSG;
+		
 		JSONObject job = new JSONObject(json);
-		nickName = "系统消息";
+		this.retcode = Integer.parseInt(job.getString("retcode"));
+		
+		sender = "系统消息";
 		
 		JSONObject msgjo = (JSONObject)job.getJSONArray("msg").get(0);
 		String typeStr = job.getString("escapeflag");
@@ -33,4 +33,13 @@ public class PacketSysMsg extends PacketBase{
 			msg = jobct.getString("mes");
 		}
 	}
+
+	public String getSender() {
+		return sender;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+	
 }
