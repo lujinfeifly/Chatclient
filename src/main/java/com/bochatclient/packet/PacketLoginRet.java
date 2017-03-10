@@ -1,10 +1,12 @@
 package com.bochatclient.packet;
 
 import org.json.JSONObject;
+import org.json.JSONStringer;
 
 import com.bochatclient.bean.ChatUserSimpleBean;
 import com.bochatclient.bean.ExtraInfoBean;
 import com.bochatclient.enums.PacketTypeConstant;
+import com.google.gson.JsonObject;
 
 
 public class PacketLoginRet extends PacketBase {
@@ -42,7 +44,7 @@ public class PacketLoginRet extends PacketBase {
 			userBean.setZoneName(zoneName);
 			userBean.setFensiLevel(fensiLevel);
 			
-			JSONObject enterJob = ujob.getJSONObject("g");
+			JSONObject enterJob = new JSONObject(ujob.getString("g"));
 			if(enterJob!=null){
 				String path = enterJob.getString("b7");
 				String effect = enterJob.getString("b9");

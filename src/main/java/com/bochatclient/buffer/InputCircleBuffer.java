@@ -42,7 +42,7 @@ public class InputCircleBuffer {
 		if(leftSize() > 20) { // ���ʣ��ռ����
 			int firstReadLen = (end >= begin)? (LEN - end) : (begin - end - 1);
 			int readbyte = stream.read(buffer, end, firstReadLen);
-//			System.out.println("lem:" + readbyte + "," + end + "," + firstReadLen);
+			System.out.println("lem:" + readbyte + "," + end + "," + firstReadLen);
 			if(readbyte == -1) {
 				throw new BoException(100,"Server disconnected.");
 			}
