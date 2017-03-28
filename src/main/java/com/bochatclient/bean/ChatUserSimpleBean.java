@@ -7,12 +7,14 @@ public class ChatUserSimpleBean {
 	private String icon;//用户头像id
 	private boolean isMaster;//是否是主播
 	private int masterLevel;//主播等级
+	private int charmLevel;//魅力等级
 	private String userName;//用户昵称
 //	private String roleId;//角色id
 	private int userType;
 	private String zoneName;//大区名称
 	private int fensiLevel;//粉丝等级
-
+	private String[] roomRoles;//房间角色,一个人可能承担多个角色
+	
 	private ExtraInfoBean extraInfo;
 	
 	public int getUserId() {
@@ -51,7 +53,20 @@ public class ChatUserSimpleBean {
 	public void setMasterLevel(int masterLevel) {
 		this.masterLevel = masterLevel;
 	}
-//	public String getRoleId() {
+	
+	public int getCharmLevel() {
+		return charmLevel;
+	}
+	public void setCharmLevel(int charmLevel) {
+		this.charmLevel = charmLevel;
+	}
+	public String[] getRoomRoles() {
+		return roomRoles;
+	}
+	public void setRoomRoles(String[] roomRoles) {
+		this.roomRoles = roomRoles;
+	}
+	//	public String getRoleId() {
 //		return roleId;
 //	}
 //	public void setRoleId(String roleId) {

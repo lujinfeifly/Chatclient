@@ -1,12 +1,10 @@
 package com.bochatclient.packet;
 
 import org.json.JSONObject;
-import org.json.JSONStringer;
 
 import com.bochatclient.bean.ChatUserSimpleBean;
 import com.bochatclient.bean.ExtraInfoBean;
-import com.bochatclient.enums.PacketTypeConstant;
-import com.google.gson.JsonObject;
+import com.bochatclient.enums.PacketConstant;
 
 
 public class PacketLoginRet extends PacketBase {
@@ -15,23 +13,25 @@ public class PacketLoginRet extends PacketBase {
 	public PacketLoginRet(String json) {
 		super();
 		
-		this.type=PacketTypeConstant.LOGIN_MSG;
+		this.type=PacketConstant.PacketType.LOGIN_MSG;
 		
 		JSONObject job = new JSONObject(json);
-		this.retcode = Integer.parseInt(job.getString("retcode"));
-		
-		JSONObject msgjo = (JSONObject)job.getJSONArray("msg").get(0);
-		JSONObject ujob = msgjo.getJSONObject("ct");
+		this.retcode = Integer.parseInt(job.optString("retcode"));
+		if(retcode!=0){//登陆异常，后面不解析
+			return;
+		}
+		JSONObject msgjo = (JSONObject)job.optJSONArray("msg").opt(0);
+		JSONObject ujob = msgjo.optJSONObject("ct");
 		if(ujob!=null){
-			int userId = ujob.getInt("bb");
-			int caifu = ujob.getInt("h");
-			String icon = ujob.getString("j");
-			boolean isMaster = ujob.getBoolean("l");
-			int masterLevel = ujob.getInt("o");
-			String userName = ujob.getString("p");
-//			String roleId = ujob.getString("y");
-			String zoneName = ujob.getString("b1");
-			int fensiLevel = ujob.getInt("b3");
+			int userId = ujob.optInt("bb");
+			int caifu = ujob.optInt("h");
+			String icon = ujob.optString("j");
+			boolean isMaster = ujob.optBoolean("l");
+			int masterLevel = ujob.optInt("o");
+			String userName = ujob.optString("p");
+//			String roleId = ujob.optString("y");
+			String zoneName = ujob.optString("b1");
+			int fensiLevel = ujob.optInt("b3");
 			
 			userBean = new ChatUserSimpleBean();
 			userBean.setUserId(userId);
@@ -44,11 +44,11 @@ public class PacketLoginRet extends PacketBase {
 			userBean.setZoneName(zoneName);
 			userBean.setFensiLevel(fensiLevel);
 			
-			JSONObject enterJob = new JSONObject(ujob.getString("g"));
+			JSONObject enterJob = new JSONObject(ujob.optString("g"));
 			if(enterJob!=null){
-				String path = enterJob.getString("b7");
-				String effect = enterJob.getString("b9");
-				boolean needBroadCast = enterJob.getBoolean("c2");
+				String path = enterJob.optString("b7");
+				String effect = enterJob.optString("b9");
+				boolean needBroadCast = enterJob.optBoolean("c2");
 				
 				ExtraInfoBean enb = new ExtraInfoBean();
 				enb.setEnterEffectPath(path);

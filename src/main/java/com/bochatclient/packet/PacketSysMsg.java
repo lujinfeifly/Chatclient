@@ -3,7 +3,7 @@ package com.bochatclient.packet;
 import org.json.JSONObject;
 
 import com.bochatclient.URLEncode;
-import com.bochatclient.enums.PacketTypeConstant;
+import com.bochatclient.enums.PacketConstant;
 
 public class PacketSysMsg extends PacketBase{
 	
@@ -13,24 +13,22 @@ public class PacketSysMsg extends PacketBase{
 	public PacketSysMsg(String json) {
 		
 		super();
-		this.type = PacketTypeConstant.SYS_MSG;
+		this.type = PacketConstant.PacketType.SYS_MSG;
 		
 		JSONObject job = new JSONObject(json);
-		this.retcode = Integer.parseInt(job.getString("retcode"));
+		this.retcode = Integer.parseInt(job.optString("retcode"));
 		
 		sender = "系统消息";
 		
-		JSONObject msgjo = (JSONObject)job.getJSONArray("msg").get(0);
-		String typeStr = job.getString("escapeflag");
+		JSONObject msgjo = (JSONObject)job.optJSONArray("msg").opt(0);
+		String typeStr = job.optString("escapeflag");
 		
-		String ct = msgjo.getString("ct");
+		String ct = msgjo.optString("ct");
 		String jsonct = "{}";
 		if(ct != null) {
 			jsonct = URLEncode.unescape(ct);
-
-			
 			JSONObject jobct = new JSONObject(jsonct);
-			msg = jobct.getString("mes");
+			msg = jobct.optString("mes");
 		}
 	}
 

@@ -7,6 +7,8 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
+import org.json.JSONObject;
+
 import com.bochatclient.buffer.InputCircleBuffer;
 import com.bochatclient.listener.ErrorListener;
 import com.bochatclient.listener.MsgListener;
@@ -100,9 +102,16 @@ public class BoChatClient {
 		}
 	}
 	
-	public void sendMessage(String msg) {
+	/**
+	 * 
+	 * @param msg	消息内容
+	 * @param action	消息类型：0：对大家说；1：对某人公开说；2：对某人私聊
+	 * @param toMasterId	action为1，2时 接收消息人
+	 * @param toMasterNick
+	 */
+	public void sendMessage(String msg,int action,String toMasterId,String toMasterNick) {
 		try {
-			dos.write(getMsgPacket(msg));
+			dos.write(getMsgPacket(msg,action,toMasterId,toMasterNick));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -141,9 +150,13 @@ public class BoChatClient {
 
 	public void disconnect() {
 		try {
+			//关闭连接
 			dos.close();
 			dis.close();
 			s.close();
+			
+			//关闭线程
+			bStop = true;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -298,8 +311,8 @@ public class BoChatClient {
 		return ret;
 	}
 	
-	public byte[] getMsgPacket(String msg) {
-		byte[] packetContent = (new Gson()).toJson(new TalkBean(msg)).getBytes();
+	public byte[] getMsgPacket(String msg,int action,String toMasterId,String toMasterNick) {
+		byte[] packetContent =  (new Gson()).toJson(new TalkBean(msg,action,toMasterId,toMasterNick)).getBytes();
 		int len = packetContent.length;
 		byte[] ret = new byte[8 + len];
 
@@ -309,7 +322,7 @@ public class BoChatClient {
 		ret[2] = (byte) (headint >> 8 & 0xff);
 		ret[3] = (byte) (headint & 0xff);
 		
-		ret[4] = 0;
+		ret[4] = (byte) action;
 		ret[5] = 2;
 		
 		for (int i = 0; i < len; i++) {

@@ -12,6 +12,7 @@ public class PacketIntent {
 		
 		public static final int LEAVE_ROOM = (1<<16) + 0;   // action 1 type 0  用户离开房间
 		public static final int SYNC_COUNT = (84<<16)+ 1;   // action 84 type 1 同步人员个数
+		public static final int SYNC_MASTER = (86<<16)+ 1;   // action 86 type 1 主播信息
 	}
 
 	public static PacketBase getPacket(int action, int type, String msg) {
@@ -30,12 +31,20 @@ public class PacketIntent {
 			case PacketType.SYST_MSG:
 				packet = new PacketSysMsg(msg);
 				break;
+			case PacketType.LEAVE_ROOM:
+				packet = new PacketLogoutRet(msg);
+				break;
 			case PacketType.LOGIN_RET:
 				packet = new PacketLoginRet(msg);
 				break;
 			case PacketType.GIFT_MSG:
-				// todo
 				packet = new PacketGiftMsg(msg);
+				break;
+			case PacketType.SYNC_COUNT:
+				packet = new PacketOnlineCountRet(msg);
+				break;
+			case PacketType.SYNC_MASTER://同步主播信息
+//				packet = new PacketOnlineCountRet(msg);
 				break;
 			}
 		}catch(Exception e){

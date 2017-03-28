@@ -27,7 +27,7 @@ public class Main implements MsgListener, ErrorListener{
 		}
 		
 //		client.sendMessage("ssssssssssssssssssss");
-		client.sendQueryList("1", "40");
+//		client.sendQueryList("1", "40");
 //		client.sendQueryUserMsg("672030622");
 
 		System.out.println("Enter Ok!");

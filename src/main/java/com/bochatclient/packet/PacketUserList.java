@@ -10,7 +10,7 @@ import org.json.JSONObject;
 
 import com.bochatclient.bean.ChatUserSimpleBean;
 import com.bochatclient.bean.Page;
-import com.bochatclient.enums.PacketTypeConstant;
+import com.bochatclient.enums.PacketConstant;
 
 
 /**
@@ -29,29 +29,29 @@ public class PacketUserList extends PacketBase{
 	
 	public PacketUserList(String json) throws Exception {
 		super();
-		this.type = PacketTypeConstant.USER_LIST_MSG;
+		this.type = PacketConstant.PacketType.USER_LIST_MSG;
 		
 		JSONObject job = new JSONObject(json);
-		this.retcode = Integer.parseInt(job.getString("retcode"));
+		this.retcode = Integer.parseInt(job.optString("retcode"));
 		
-		JSONObject msgjo = (JSONObject)job.getJSONArray("msg").get(0);
-		JSONArray ctArray = msgjo.getJSONArray("ct");
+		JSONObject msgjo = (JSONObject)job.optJSONArray("msg").opt(0);
+		JSONArray ctArray = msgjo.optJSONArray("ct");
 		
-		JSONObject ctA = (JSONObject) ctArray.get(0);
-		int total = ctA.getInt("e");//房间总人数
-		int nextPage = ctA.getInt("c");//是否有下一页
-		int pageNum = ctA.getInt("d");//当前页数
+		JSONObject ctA = (JSONObject) ctArray.opt(0);
+		int total = ctA.optInt("e");//房间总人数
+		int nextPage = ctA.optInt("c");//是否有下一页
+		int pageNum = ctA.optInt("d");//当前页数
 		
 		page = new Page(total, nextPage, pageNum);
 		if(total>0){
-			JSONObject ctB = (JSONObject) ctArray.get(1);
-			JSONArray ulistArray = ctB.getJSONArray("h");//用户列表
+			JSONObject ctB = (JSONObject) ctArray.opt(1);
+			JSONArray ulistArray = ctB.optJSONArray("h");//用户列表
 			userList = new ArrayList<ChatUserSimpleBean>();
 			
 			
-//			int caifuCount = ctA.getInt("b");//财富用户数
-//			int normalCount = ctA.getInt("a");//普通用户数
-//			int caifuPageCount = (caifuCount/page.getPageSize()+1);//财富等级的总页数
+//			int caifuCount = ctA.optInt("b");//财富用户数
+//			int normalCount = ctA.optInt("a");//普通用户数
+//			int caifuPageCount = (caifuCount/page.optPageSize()+1);//财富等级的总页数
 //			
 //			int length = ulistArray.length();
 //			if(pageNum<caifuPageCount){//
@@ -59,17 +59,17 @@ public class PacketUserList extends PacketBase{
 //			}
 			
 			for(int i=0;i<ulistArray.length();i++){
-				JSONObject ujob = ulistArray.getJSONObject(i);
+				JSONObject ujob = ulistArray.optJSONObject(i);
 				
-				int userId = Integer.parseInt(ujob.getString("bb"));
-				int caifu = ujob.getInt("h");
-				String icon = ujob.getString("j");
-				boolean isMaster = ujob.getBoolean("l");
-				int masterLevel = ujob.getInt("o");
-				String userName = ujob.getString("p");
-//				String roleId = ujob.getString("y");
-				String zoneName = ujob.getString("b1");
-				int fensiLevel = ujob.getInt("b3");
+				int userId = Integer.parseInt(ujob.optString("bb"));
+				int caifu = ujob.optInt("h");
+				String icon = ujob.optString("j");
+				boolean isMaster = ujob.optBoolean("l");
+				int masterLevel = ujob.optInt("o");
+				String userName = ujob.optString("p");
+//				String roleId = ujob.optString("y");
+				String zoneName = ujob.optString("b1");
+				int fensiLevel = ujob.optInt("b3");
 				ChatUserSimpleBean userBean = new ChatUserSimpleBean();
 				
 				userBean.setUserId(userId);
