@@ -1,79 +1,55 @@
 package com.bochatclient.packet;
 
 
-import org.json.JSONObject;
-
+import com.bochatclient.annotation.Mapping;
 import com.bochatclient.bean.ChatUserSimpleBean;
-import com.bochatclient.enums.PacketConstant;
 
+/**
+ * @ClassName: PacketUserMsg.java
+ * @Description: 房间聊天消息
+ * @author renms
+ * @date 2017年4月7日 下午2:25:15 
+ * @version 1.0
+ */
 public class PacketUserMsg extends PacketBase{
+	@Mapping("ct")
 	private String msg;
-	private ChatUserSimpleBean userBean;
-	private String msgType;
-	private ChatUserSimpleBean toUserBean;
 	
-	public PacketUserMsg(String json) {
-		super();
-		this.type = PacketConstant.PacketType.USER_MSG;
-		
-		JSONObject job = new JSONObject(json);
-		this.retcode = Integer.parseInt(job.optString("retcode"));
-		
-		JSONObject msgjo = (JSONObject)job.optJSONArray("msg").opt(0);
-		msgType = msgjo.optString("b");//0-对大家说/1-公开对某人说/2-悄悄对某人说
-		msg = msgjo.optString("ct");
-		
-		JSONObject ejob = msgjo.optJSONObject("e");
-		
-		String userID = ejob.optString("bb");
-		String nickName = ejob.optString("p");
-		int fensi = ejob.optInt("b3");
-		int caifu = ejob.optInt("h");
-		int userType = ejob.optInt("a8");
-		String roomRole = ejob.optString("a1");
-
-		userBean = new ChatUserSimpleBean();
-		userBean.setUserId(Integer.parseInt(userID));
-		userBean.setUserName(nickName);
-		userBean.setFensiLevel(fensi);
-		userBean.setCaifuLevel(caifu);
-		userBean.setUserType(userType);
-		userBean.setRoomRoles(roomRole.split(","));
-		
-		switch(Integer.parseInt(msgType)) {
-		case 0:  // 公开说
-			break;
-		case 1:   // 对某人说
-		case 2:   // 悄悄对某人说
-			JSONObject tojob = msgjo.optJSONObject("f");
-			if(tojob!=null){
-				toUserBean = new ChatUserSimpleBean();
-				toUserBean.setUserId(Integer.parseInt(tojob.optString("bb")));
-				toUserBean.setUserName(tojob.optString("p"));
-				toUserBean.setFensiLevel(tojob.optInt("b3"));
-				toUserBean.setCaifuLevel(tojob.optInt("h"));
-				toUserBean.setUserType(tojob.optInt("a8"));
-				toUserBean.setRoomRoles(tojob.optString("a1").split(","));
-			}
-			break;
-		}
-	}
-
-	public ChatUserSimpleBean getUserBean() {
-		return userBean;
-	}
-	
-	public ChatUserSimpleBean getToUserBean() {
-		return toUserBean;
-	}
-
+	@Mapping(value="e",type="object")
+	private ChatUserSimpleBean achatUser;//操作人
+	@Mapping(value="f",type="object")
+	private ChatUserSimpleBean bchatUser;//被操作人
+	@Mapping("b")
+	private String msgType;//0-对大家说/1-公开对某人说/2-悄悄对某人说 (113 114 115)-飞屏消息
 	public String getMsg() {
 		return msg;
 	}
-
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+	public ChatUserSimpleBean getAchatUser() {
+		return achatUser;
+	}
+	public void setAchatUser(ChatUserSimpleBean achatUser) {
+		this.achatUser = achatUser;
+	}
+	public ChatUserSimpleBean getBchatUser() {
+		return bchatUser;
+	}
+	public void setBchatUser(ChatUserSimpleBean bchatUser) {
+		this.bchatUser = bchatUser;
+	}
+	public String getMsgType() {
+		return msgType;
+	}
+	public void setMsgType(String msgType) {
+		this.msgType = msgType;
+	}
 	@Override
 	public String toString() {
-		return "PacketUserMsg [retcode=" + retcode + ", type=" + type + ", msg=" + msg + ", userBean=" + userBean +"]";
+		return "PacketUserMsg [retcode=" + retcode + ", retmsg=" + retmsg
+				+ ", type=" + type + ", version=" + version + ", msg=" + msg
+				+ ", achatUser=" + achatUser + ", bchatUser=" + bchatUser
+				+ ", msgType=" + msgType + "]";
 	}
-	
 }

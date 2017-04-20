@@ -10,10 +10,15 @@ import java.net.UnknownHostException;
 import org.json.JSONObject;
 
 import com.bochatclient.buffer.InputCircleBuffer;
+import com.bochatclient.enter.QueryListBean;
+import com.bochatclient.enter.TalkBean;
+import com.bochatclient.enter.UserEnterBean;
+import com.bochatclient.enter.UserMsgBean;
+import com.bochatclient.exception.BoException;
 import com.bochatclient.listener.ErrorListener;
 import com.bochatclient.listener.MsgListener;
 import com.bochatclient.packet.PacketBase;
-import com.google.gson.Gson;
+import com.bochatclient.utils.BeanUtil;
 
 public class BoChatClient {
 	private String mIp;
@@ -167,81 +172,83 @@ public class BoChatClient {
 			while (!bStop) {
 				synchronized (lock) {
 					try{
-						Thread.sleep(40);
-						
+//						Thread.sleep(40);
 						buffer.readFromInputStream(dis);
 						PacketBase packet = buffer.getPacket();
-							
-						if(packet != null)
-						switch(packet.getRetcode()) {
-						case 0:       
-//							if(packet.isMsg()) {
-								msgListener.onReciveMsg(packet);
-//							}
-							break;
-						case 1:        //
-							errorListener.onError(1);
-							break;
-						case 2:        //
-							break;
-						case 401001:
-							break;
-						case 401002:
-							break;
-						case 401005:   // 聊天室没有开
-							bStop = true;                // 暂停循环
-							errorListener.onError(401005);
-							break;
-						case 401014:    // 
-							break;
-						case 409004:
-							break;
-						case 409005:
-							break;
-						case 401007:
-							break;
-						case 401011:
-							break;
-						case 402001:
-							break;
-						case 402003:
-							break;
-						case 402004:
-							break;
-						case 402005:
-							break;
-						case 402007:
-							break;
-						case 402009:
-							break;
-						case 402010:
-							break;
-						case 402012:
-							break;
-						case 402013:
-							break;
-						case 402014:
-							break;
-						case 402015:
-							break;
-						case 402016:
-							break;
-						case 402008:
-							break;
-						case 402017:
-							break;
-						case 403001:
-							break;
-						case 403002:
-							break;
-						case 404001:
-							break;
-						case 404002:
-							break;
-						default:
-							
+						while(packet!=null){
+	//						System.out.println("-----------------end--------------"+System.currentTimeMillis());
+							if(packet != null)
+							switch(packet.getRetcode()) {
+							case 0:       
+	//							if(packet.isMsg()) {
+									msgListener.onReciveMsg(packet);
+	//							}
+								break;
+							case 1:        //
+								errorListener.onError(1);
+								break;
+							case 2:        //
+								break;
+							case 401001:
+								break;
+							case 401002:
+								break;
+							case 401005:   // 聊天室没有开
+								bStop = true;                // 暂停循环
+								errorListener.onError(401005);
+								break;
+							case 401014:    // 
+								break;
+							case 409004:
+								break;
+							case 409005:
+								break;
+							case 401007:
+								break;
+							case 401011:
+								break;
+							case 402001:
+								break;
+							case 402003:
+								break;
+							case 402004:
+								break;
+							case 402005:
+								break;
+							case 402007:
+								break;
+							case 402009:
+								break;
+							case 402010:
+								break;
+							case 402012:
+								break;
+							case 402013:
+								break;
+							case 402014:
+								break;
+							case 402015:
+								break;
+							case 402016:
+								break;
+							case 402008:
+								break;
+							case 402017:
+								break;
+							case 403001:
+								break;
+							case 403002:
+								break;
+							case 404001:
+								break;
+							case 404002:
+								break;
+							default:
+								
+							}
+							packet=buffer.getPacket();
 						}
-							
+								
 //						} else {
 //							try {
 //								Thread.sleep(80);
@@ -296,7 +303,12 @@ public class BoChatClient {
 	}
 
 	public byte[] getEnterPacket(UserEnterBean bean) {
-		byte[] packetContent = (new Gson()).toJson(bean).getBytes();
+		
+		JSONObject job = new JSONObject(BeanUtil.beanToJson(bean));
+		byte[] packetContent = job.toString().getBytes();
+		
+//		byte[] packetContent = (new Gson()).toJson(bean).getBytes();
+		
 		int len = packetContent.length;
 		byte[] ret = new byte[8 + len];
 
@@ -308,11 +320,17 @@ public class BoChatClient {
 		for (int i = 0; i < len; i++) {
 			ret[8 + i] = packetContent[i];
 		}
+		System.out.println(new String(ret));
 		return ret;
 	}
 	
 	public byte[] getMsgPacket(String msg,int action,String toMasterId,String toMasterNick) {
-		byte[] packetContent =  (new Gson()).toJson(new TalkBean(msg,action,toMasterId,toMasterNick)).getBytes();
+		
+		JSONObject job = new JSONObject(BeanUtil.beanToJson(new TalkBean(msg,action,toMasterId,toMasterNick)));
+		byte[] packetContent = job.toString().getBytes();
+		
+//		byte[] packetContent =  (new Gson()).toJson(new TalkBean(msg,action,toMasterId,toMasterNick)).getBytes();
+		
 		int len = packetContent.length;
 		byte[] ret = new byte[8 + len];
 
@@ -333,7 +351,11 @@ public class BoChatClient {
 	
 	// 获取聊天室成员列表请求包
 	public byte[] getListPacket(String pno, String rpp ) {
-		byte[] packetContent = (new Gson()).toJson(new QueryListBean(loginBean.getRid(), loginBean.getUid(), pno, rpp)).getBytes();
+		
+		JSONObject job = new JSONObject(BeanUtil.beanToJson(new QueryListBean(loginBean.getRid(), loginBean.getUid(), pno, rpp)));
+		byte[] packetContent = job.toString().getBytes();
+		
+//		byte[] packetContent = (new Gson()).toJson(new QueryListBean(loginBean.getRid(), loginBean.getUid(), pno, rpp)).getBytes();
 		int len = packetContent.length;
 		byte[] ret = new byte[8 + len];
 
@@ -353,7 +375,12 @@ public class BoChatClient {
 	}
 	
 	public byte[] getUserInfoPacket(String uid) {
-		byte[] packetContent = (new Gson()).toJson(new UserMsgBean(loginBean.getRid(), loginBean.getUid(), uid)).getBytes();
+		
+		JSONObject job = new JSONObject(BeanUtil.beanToJson(new UserMsgBean(loginBean.getRid(), loginBean.getUid(), uid)));
+		byte[] packetContent = job.toString().getBytes();
+		
+//		byte[] packetContent = (new Gson()).toJson(new UserMsgBean(loginBean.getRid(), loginBean.getUid(), uid)).getBytes();
+		
 		int len = packetContent.length;
 		byte[] ret = new byte[8 + len];
 

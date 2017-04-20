@@ -1,6 +1,6 @@
-package com.bochatclient;
+package com.bochatclient.enter;
 
-public class QueryListBean {
+public class QueryListBean implements SendBean{
 //	private String rid;
 //	private String uid;
 	private String pno;
@@ -13,4 +13,18 @@ public class QueryListBean {
 		this.pno = pno;
 		this.rpp = rpp;
 	}
+
+	public String getPno() {
+		return pno;
+	}
+
+	public String getRpp() {
+		return rpp;
+	}
+
+	public String getV() {
+		return v;
+	}
+
+	
 }

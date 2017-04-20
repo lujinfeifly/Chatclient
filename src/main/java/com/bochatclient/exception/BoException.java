@@ -1,4 +1,4 @@
-package com.bochatclient;
+package com.bochatclient.exception;
 
 public class BoException extends Exception {
 	

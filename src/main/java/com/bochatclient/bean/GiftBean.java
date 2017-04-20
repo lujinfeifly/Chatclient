@@ -2,7 +2,7 @@ package com.bochatclient.bean;
 
 public class GiftBean {
 	
-	private int giftId;
+	private long giftId;
 	private boolean comboAutoSwitch;//连击开关
 	private int comboGroupNum;//连击组数
 	private int comboNum;//连击次数
@@ -12,10 +12,10 @@ public class GiftBean {
 	private int isFree;//是否免费礼物 0-不是/1-是
 	private String giftIcon;//礼物图片
 	
-	public int getGiftId() {
+	public long getGiftId() {
 		return giftId;
 	}
-	public void setGiftId(int giftId) {
+	public void setGiftId(long giftId) {
 		this.giftId = giftId;
 	}
 	public boolean isComboAutoSwitch() {

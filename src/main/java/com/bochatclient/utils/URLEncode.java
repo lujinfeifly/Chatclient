@@ -1,4 +1,4 @@
-package com.bochatclient;
+package com.bochatclient.utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

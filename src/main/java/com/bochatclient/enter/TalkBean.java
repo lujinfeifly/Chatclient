@@ -1,6 +1,6 @@
-package com.bochatclient;
+package com.bochatclient.enter;
 
-public class TalkBean {
+public class TalkBean implements SendBean{
 	private String _method_ = "SendPubMsg";
 	private String toMasterId = "";
 	private String toMasterNick = "";
@@ -15,4 +15,25 @@ public class TalkBean {
 			this.pub = "1";
 		}
 	}
+
+	public String get_method_() {
+		return _method_;
+	}
+
+	public String getToMasterId() {
+		return toMasterId;
+	}
+
+	public String getToMasterNick() {
+		return toMasterNick;
+	}
+
+	public String getCt() {
+		return ct;
+	}
+
+	public String getPub() {
+		return pub;
+	}
+	
 }

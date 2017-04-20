@@ -1,20 +1,36 @@
 package com.bochatclient.bean;
 
+import com.bochatclient.annotation.Mapping;
+import com.bochatclient.utils.GuidUtil;
+
 public class ChatUserSimpleBean {
 	
+	@Mapping("bb")
 	private int userId;//用户id
+	@Mapping("h")
 	private int caifuLevel;//财富等级
+	@Mapping("j")
 	private String icon;//用户头像id
-	private boolean isMaster;//是否是主播
+	@Mapping("l")
+	private boolean master;//是否是主播
+	@Mapping("o")
 	private int masterLevel;//主播等级
+	@Mapping("d")
 	private int charmLevel;//魅力等级
+	@Mapping("p")
 	private String userName;//用户昵称
-//	private String roleId;//角色id
+	@Mapping("a4")
+	private String roleId;//角色id
+	@Mapping("a8")
 	private int userType;
+	@Mapping("b1")
 	private String zoneName;//大区名称
+	@Mapping("b3")
 	private int fensiLevel;//粉丝等级
-	private String[] roomRoles;//房间角色,一个人可能承担多个角色
+	@Mapping("a1")
+	private String roomRoles;//房间角色,一个人可能承担多个角色
 	
+	@Mapping(value="g",type="object")
 	private ExtraInfoBean extraInfo;
 	
 	public int getUserId() {
@@ -42,10 +58,10 @@ public class ChatUserSimpleBean {
 		this.icon = icon;
 	}
 	public boolean isMaster() {
-		return isMaster;
+		return master;
 	}
-	public void setMaster(boolean isMaster) {
-		this.isMaster = isMaster;
+	public void setMaster(boolean master) {
+		this.master = master;
 	}
 	public int getMasterLevel() {
 		return masterLevel;
@@ -61,17 +77,30 @@ public class ChatUserSimpleBean {
 		this.charmLevel = charmLevel;
 	}
 	public String[] getRoomRoles() {
-		return roomRoles;
+		return roomRoles.split(",");
 	}
-	public void setRoomRoles(String[] roomRoles) {
+	public void setRoomRoles(String roomRoles) {
 		this.roomRoles = roomRoles;
 	}
-	//	public String getRoleId() {
-//		return roleId;
-//	}
-//	public void setRoleId(String roleId) {
-//		this.roleId = roleId;
-//	}
+	public String getRoleId() {
+		return roleId;
+	}
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
+	}
+	
+	public int getGuidH(){
+		if(roleId!=null)
+		return GuidUtil.getGuidhAndGuidl(roleId)[0];
+		return 0;
+	}
+	
+	public int getGuidL(){
+		if(roleId!=null)
+		return GuidUtil.getGuidhAndGuidl(roleId)[1];
+		return 0;
+	}
+	
 	public int getUserType() {
 		return userType;
 	}
@@ -97,12 +126,16 @@ public class ChatUserSimpleBean {
 	public void setExtraInfo(ExtraInfoBean extraInfo) {
 		this.extraInfo = extraInfo;
 	}
+	
 	@Override
 	public String toString() {
 		return "ChatUserSimpleBean [userId=" + userId + ", caifuLevel="
-				+ caifuLevel + ", icon=" + icon + ", isMaster=" + isMaster
-				+ ", masterLevel=" + masterLevel + ", userName=" + userName
-				+ ", userType=" + userType
-				+ ", zoneName=" + zoneName + ", fensiLevel=" + fensiLevel + "]";
+				+ caifuLevel + ", icon=" + icon + ", isMaster=" + master
+				+ ", masterLevel=" + masterLevel + ", charmLevel=" + charmLevel
+				+ ", userName=" + userName + ", roleId=" + roleId
+				+ ", userType=" + userType + ", zoneName=" + zoneName
+				+ ", fensiLevel=" + fensiLevel + ", roomRoles=" + roomRoles
+				+ ", extraInfo=" + extraInfo + "]";
 	}
+	
 }

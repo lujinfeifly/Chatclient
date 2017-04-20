@@ -1,11 +1,11 @@
-package com.bochatclient;
+package com.bochatclient.enter;
 
 /**
  * 查询用户信息
  * @author lujinfei
  *
  */
-public class UserMsgBean {
+public class UserMsgBean implements SendBean{
 //	private String rid;
 //	private String uid;
 	private String bb;
@@ -16,4 +16,14 @@ public class UserMsgBean {
 //		this.uid = uid;
 		this.bb = bb;
 	}
+
+	public String getBb() {
+		return bb;
+	}
+
+	public String getV() {
+		return v;
+	}
+
+	
 }
