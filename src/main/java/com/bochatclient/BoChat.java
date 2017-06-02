@@ -1,9 +1,7 @@
 package com.bochatclient;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
-import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
@@ -11,6 +9,7 @@ import java.nio.channels.SocketChannel;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -24,14 +23,13 @@ import com.bochatclient.enter.SendBean;
 import com.bochatclient.enter.TalkBean;
 import com.bochatclient.enter.UserEnterBean;
 import com.bochatclient.enter.UserMsgBean;
-import com.bochatclient.enums.PacketConstant;
+import com.bochatclient.enums.ErrorEnum;
 import com.bochatclient.listener.ErrorListener;
 import com.bochatclient.listener.MsgListener;
 import com.bochatclient.packet.PacketBase;
 import com.bochatclient.packet.PacketIntent;
 import com.bochatclient.utils.BeanUtil;
 import com.bochatclient.utils.URLEncode;
-import com.sun.xml.internal.ws.api.message.Packet;
  
 public class BoChat {
     private SocketChannel client;
@@ -113,7 +111,6 @@ public class BoChat {
                                 isReading.set(true);
                                 threadPool.execute(new ReceiveMessageHandler(socketChannel));
                             }
- 
                         } else if (selectionKey.isWritable()) {
                             Object requestMessage = selectionKey.attachment();
                             SocketChannel socketChannel = (SocketChannel) selectionKey.channel();
@@ -170,7 +167,7 @@ public class BoChat {
                     }
                     Date date = new Date();
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
-                    System.out.println("[" + sdf.format(date) + "][" + Thread.currentThread().getId() + "]客户端发送数据：["
+                    System.out.println("[" + sdf.format(date) + "]客户端发送数据：["
                             + new String(requestMessageByteData) + "]");
                 }
             } catch (Exception e) {
@@ -205,7 +202,10 @@ public class BoChat {
                 while (len > 0) {
                     int readLen = client.read(dataLen);
                     if (readLen < 0) {
-                        throw new Exception("readLen==" + readLen);
+                    	//服务器主动断开连接，关闭相关流信息
+                    	close();
+                    	return;
+//                        throw new Exception("readLen==" + readLen);
                     } else if (readLen == 0) {
                         System.out.println(Thread.currentThread().getId() + "readLen == 0");
                         return;
@@ -217,98 +217,32 @@ public class BoChat {
                 int action = dataLen.get()&0xff;
                 int type = dataLen.get()&0xff;
                 
-                //心跳包不处理
-                if(PacketConstant.PacketType.SYS_HEART==(action<<16+type)){/*
-                	System.out.println("心跳包不用处理-------------");
-                	isReading.set(false);
-                	return;
-                */}
-                
                 ByteBuffer data = ByteBuffer.allocate(data_length-8);
                 while (data.hasRemaining()) {
                     client.read(data);
                 }
                 
-                
                 byte[] ss = URLEncode.unjzlib(data.array());
                 String receiveData = new String(ss,"UTF-8");
                 
-                PacketBase packet = PacketIntent.getPacket(action, type, receiveData);
-                
-				if(packet != null)
-						switch(packet.getRetcode()) {
-						case 0:       
-							msgListener.onReciveMsg(packet);
-							break;
-						case 1:        //
-							errorListener.onError(1);
-							break;
-						case 2:        //
-							break;
-						case 401001:
-							break;
-						case 401002:
-							break;
-						case 401005:   // 聊天室没有开
-							isClose = true;                // 暂停循环
-							errorListener.onError(401005);
-							break;
-						case 401014:    // 
-							break;
-						case 409004:
-							break;
-						case 409005:
-							break;
-						case 401007:
-							break;
-						case 401011:
-							break;
-						case 402001:
-							break;
-						case 402003:
-							break;
-						case 402004:
-							break;
-						case 402005:
-							break;
-						case 402007:
-							break;
-						case 402009:
-							break;
-						case 402010:
-							break;
-						case 402012:
-							break;
-						case 402013:
-							break;
-						case 402014:
-							break;
-						case 402015:
-							break;
-						case 402016:
-							break;
-						case 402008:
-							break;
-						case 402017:
-							break;
-						case 403001:
-							break;
-						case 403002:
-							break;
-						case 404001:
-							break;
-						case 404002:
-							break;
-						default:
-							
+                List<PacketBase> packetList = PacketIntent.getPacket(action, type, receiveData);
+                if(packetList!=null){
+	                for(int i=0,size=packetList.size();i<size;i++){
+	                	PacketBase packet = packetList.get(i);
+						if(packet != null){
+							int retCode = packet.getRetcode();
+							if(retCode==0){
+								msgListener.onReciveMsg(packet);
+							}else{
+								errorListener.onError(retCode,ErrorEnum.getErrorMsg(retCode));
+							}
 						}
-                
-                
+	                }
+                }
                 
                 Date date = new Date();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
-                System.out.println("[" + sdf.format(date) + "][" + Thread.currentThread().getId() + "]客户端接收到服务器["
-                        + client.getRemoteAddress() + "]数据 :[action:"+action+"--type"+type+ "--content:" + receiveData + "]");
+                System.out.println("[" + sdf.format(date) + "] 数据 :[action:"+action+"--type:"+type+ "--content:" + receiveData + "]");
                 readCount.incrementAndGet();
             } catch (Exception e) {
             	e.printStackTrace();

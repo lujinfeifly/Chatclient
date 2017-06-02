@@ -23,9 +23,10 @@ public class PacketGiftMsg extends PacketBase {
 	private int isFree;//是否免费礼物 0-不是/1-是
 	@Mapping("m")
 	private String giftIcon;//礼物图片
-	
+	@Mapping("c6")
+	private int version;//版本号
 	//---用户信息----
-	@Mapping("b2")
+	@Mapping("bb")
 	private int userId;
 	@Mapping("b9")
 	private String userName;
@@ -104,6 +105,10 @@ public class PacketGiftMsg extends PacketBase {
 		this.giftBean = giftBean;
 	}
 	
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
 	public ChatUserSimpleBean getUserBean() {
 		userBean=new ChatUserSimpleBean();
 		userBean.setUserId(userId);
@@ -125,6 +130,7 @@ public class PacketGiftMsg extends PacketBase {
 		giftBean.setComboGroupNum(comboGroupNum);
 		giftBean.setComboNum(comboNum);
 		giftBean.setGiftIcon(giftIcon);
+		giftBean.setVersion(version);
 		return giftBean;
 	}
 

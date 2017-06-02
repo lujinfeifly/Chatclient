@@ -78,8 +78,8 @@ public class ChatUserBean {
 	public void setCharmLevel(int charmLevel) {
 		this.charmLevel = charmLevel;
 	}
-	public String[] getRoomRoles() {
-		return roomRoles.split(",");
+	public String getRoomRoles() {
+		return roomRoles;
 	}
 	public void setRoomRoles(String roomRoles) {
 		this.roomRoles = roomRoles;
@@ -92,15 +92,11 @@ public class ChatUserBean {
 	}
 	
 	public int getGuidH(){
-		if(roleId!=null)
 		return GuidUtil.getGuidhAndGuidl(roleId)[0];
-		return 0;
 	}
 	
 	public int getGuidL(){
-		if(roleId!=null)
 		return GuidUtil.getGuidhAndGuidl(roleId)[1];
-		return 0;
 	}
 	
 	public int getUserType() {

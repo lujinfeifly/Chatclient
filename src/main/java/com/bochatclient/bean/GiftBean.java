@@ -11,7 +11,7 @@ public class GiftBean {
 	private boolean isComboFlag;//是否连击
 	private int isFree;//是否免费礼物 0-不是/1-是
 	private String giftIcon;//礼物图片
-	
+	private int version;//礼物版本号
 	public long getGiftId() {
 		return giftId;
 	}
@@ -67,5 +67,10 @@ public class GiftBean {
 	public void setGiftIcon(String giftIcon) {
 		this.giftIcon = giftIcon;
 	}
-	
+	public int getVersion() {
+		return version;
+	}
+	public void setVersion(int version) {
+		this.version = version;
+	}
 }

@@ -3,6 +3,7 @@ package com.bochatclient.buffer;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import com.bochatclient.exception.BoException;
 import com.bochatclient.packet.PacketBase;
@@ -69,7 +70,7 @@ public class InputCircleBuffer {
 		return 0;
 	}
 	
-	public PacketBase getPacket() {
+	public List<PacketBase> getPacket() {
 		int size = size();
 		if(size < 8) {
 			return null;
@@ -114,14 +115,14 @@ public class InputCircleBuffer {
 		}
 		
 		
-		PacketBase packet = null;
+		List<PacketBase> packetList = null;
 		try {
-			packet = PacketIntent.getPacket(action, type, new String(ss, "UTF-8"));
+			packetList = PacketIntent.getPacket(action, type, new String(ss, "UTF-8"));
 		} catch (UnsupportedEncodingException e1) {
 			e1.printStackTrace();
 		}
 		
-		return packet;
+		return packetList;
 	}
 
 }

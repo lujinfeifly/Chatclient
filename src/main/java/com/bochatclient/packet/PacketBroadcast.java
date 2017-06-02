@@ -24,6 +24,9 @@ public class PacketBroadcast extends PacketBase{
 	private String time;//发送时间
 //	@Mapping("e")
 //	private String roomUrl;//房间地址
+	@Mapping("h")
+	private String masterName;//主播名称
+	
 	public int getUserId() {
 		return userId;
 	}
@@ -54,7 +57,13 @@ public class PacketBroadcast extends PacketBase{
 	public void setTime(String time) {
 		this.time = time;
 	}
-//	public String getRoomUrl() {
+	public String getMasterName() {
+		return masterName;
+	}
+	public void setMasterName(String masterName) {
+		this.masterName = masterName;
+	}
+	//	public String getRoomUrl() {
 //		return roomUrl;
 //	}
 //	public void setRoomUrl(String roomUrl) {
@@ -65,6 +74,6 @@ public class PacketBroadcast extends PacketBase{
 		return "PacketBroadcast [retcode=" + retcode + ", retmsg=" + retmsg
 				+ ", type=" + type + ", version=" + version + ", userId="
 				+ userId + ", userName=" + userName + ", content=" + content
-				+ ", roomId=" + roomId + ", time=" + time + "]";
+				+ ", roomId=" + roomId + ", time=" + time + ",masterName="+masterName+"]";
 	}
 }

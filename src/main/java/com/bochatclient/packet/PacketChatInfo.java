@@ -1,6 +1,7 @@
 package com.bochatclient.packet;
 
 import com.bochatclient.annotation.Mapping;
+import com.bochatclient.bean.ChatUserSimpleBean;
 
 /**
  * @ClassName: PacketChatInfo.java
@@ -20,6 +21,8 @@ public class PacketChatInfo extends PacketBase{
 	@Mapping("userName")
 	private String userName;
 	
+	private ChatUserSimpleBean chatUser;
+	
 	public int getFlag() {
 		return flag;
 	}
@@ -33,6 +36,24 @@ public class PacketChatInfo extends PacketBase{
 		return userName;
 	}
 	
+	public void setFlag(int flag) {
+		this.flag = flag;
+	}
+	public void setRoomId(long roomId) {
+		this.roomId = roomId;
+	}
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public ChatUserSimpleBean getChatUser() {
+		return chatUser;
+	}
+	public void setChatUser(ChatUserSimpleBean chatUser) {
+		this.chatUser = chatUser;
+	}
 	@Override
 	public String toString() {
 		return "PacketChatInfo [retcode=" + retcode + ", retmsg=" + retmsg

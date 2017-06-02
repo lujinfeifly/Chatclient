@@ -7,7 +7,7 @@ public class PacketOnlineCountRet extends PacketBase {
 	
 	@Mapping("b")
 	private int general;
-	@Mapping("b")
+	@Mapping("c")
 	private int caifu;
 	
 

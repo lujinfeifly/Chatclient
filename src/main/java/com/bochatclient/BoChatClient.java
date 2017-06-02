@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.List;
 
 import org.json.JSONObject;
 
@@ -14,6 +15,7 @@ import com.bochatclient.enter.QueryListBean;
 import com.bochatclient.enter.TalkBean;
 import com.bochatclient.enter.UserEnterBean;
 import com.bochatclient.enter.UserMsgBean;
+import com.bochatclient.enums.ErrorEnum;
 import com.bochatclient.exception.BoException;
 import com.bochatclient.listener.ErrorListener;
 import com.bochatclient.listener.MsgListener;
@@ -174,79 +176,24 @@ public class BoChatClient {
 					try{
 //						Thread.sleep(40);
 						buffer.readFromInputStream(dis);
-						PacketBase packet = buffer.getPacket();
-						while(packet!=null){
+						List<PacketBase> packetList = buffer.getPacket();
+						while(packetList!=null){
 	//						System.out.println("-----------------end--------------"+System.currentTimeMillis());
-							if(packet != null)
-							switch(packet.getRetcode()) {
-							case 0:       
-	//							if(packet.isMsg()) {
-									msgListener.onReciveMsg(packet);
-	//							}
-								break;
-							case 1:        //
-								errorListener.onError(1);
-								break;
-							case 2:        //
-								break;
-							case 401001:
-								break;
-							case 401002:
-								break;
-							case 401005:   // 聊天室没有开
-								bStop = true;                // 暂停循环
-								errorListener.onError(401005);
-								break;
-							case 401014:    // 
-								break;
-							case 409004:
-								break;
-							case 409005:
-								break;
-							case 401007:
-								break;
-							case 401011:
-								break;
-							case 402001:
-								break;
-							case 402003:
-								break;
-							case 402004:
-								break;
-							case 402005:
-								break;
-							case 402007:
-								break;
-							case 402009:
-								break;
-							case 402010:
-								break;
-							case 402012:
-								break;
-							case 402013:
-								break;
-							case 402014:
-								break;
-							case 402015:
-								break;
-							case 402016:
-								break;
-							case 402008:
-								break;
-							case 402017:
-								break;
-							case 403001:
-								break;
-							case 403002:
-								break;
-							case 404001:
-								break;
-							case 404002:
-								break;
-							default:
-								
+							for(int i=0;i<packetList.size();i++){
+								PacketBase packet = packetList.get(i);
+								if(packet != null){
+									if(packet != null){
+										int retCode = packet.getRetcode();
+										if(retCode==0){
+											msgListener.onReciveMsg(packet);
+										}else{
+											errorListener.onError(1,ErrorEnum.getErrorMsg(retCode));
+											
+										}
+									}
+								}
 							}
-							packet=buffer.getPacket();
+							packetList=buffer.getPacket();
 						}
 								
 //						} else {
@@ -260,7 +207,7 @@ public class BoChatClient {
 					}catch(IOException e) {
 						e.printStackTrace();
 					}catch(BoException be) {
-						errorListener.onError(2);
+						errorListener.onError(2,"系统异常");
 						break;
 					}catch(Exception be) {
 					}

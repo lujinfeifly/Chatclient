@@ -16,9 +16,15 @@ public class PacketFPMsg extends PacketBase{
 	@Mapping("b")
 	private int msgType;//飞屏类型 113 114 115
 	@Mapping("bb")
-	private int userId;//飞屏类型
+	private int userId;//用户id
 	@Mapping("c")
 	private String msg;
+	@Mapping("h")
+	private String userName;//用户名称
+	@Mapping("a")
+	private int fensiLevel;//粉丝等级
+	@Mapping("e")
+	private int caifulevel;//财富等级
 	
 	public int getMsgType() {
 		return msgType;
@@ -42,6 +48,30 @@ public class PacketFPMsg extends PacketBase{
 
 	public void setMsg(String msg) {
 		this.msg = msg;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public int getFensiLevel() {
+		return fensiLevel;
+	}
+
+	public void setFensiLevel(int fensiLevel) {
+		this.fensiLevel = fensiLevel;
+	}
+
+	public int getCaifulevel() {
+		return caifulevel;
+	}
+
+	public void setCaifulevel(int caifulevel) {
+		this.caifulevel = caifulevel;
 	}
 
 	@Override

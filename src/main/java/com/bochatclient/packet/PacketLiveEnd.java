@@ -1,47 +1,105 @@
 package com.bochatclient.packet;
 
 import com.bochatclient.annotation.Mapping;
-import com.bochatclient.bean.ChatUserSimpleBean;
 
 /**
- * @ClassName: PacketBannedInfo.java
- * @Description: 设置|取消管理员
+ * @ClassName: PacketLiveEnd.java
+ * @Description: 关闭通知
  * @author renms
  * @date 2017年4月7日 下午2:24:19 
  * @version 1.0
  */
 public class PacketLiveEnd extends PacketBase{
 	
-	@Mapping("h")
-	private int action;//PacketBannedInfo包中 （0-踢人/1-禁言/2-解禁） PacketAdminInfo包中（1-设置/2-取消）
-	@Mapping(value="f",type="object")
-	private ChatUserSimpleBean achatUser;//操作人
-	@Mapping(value="b",type="object")
-	private ChatUserSimpleBean bchatUser;//被操作人
-	public int getAction() {
-		return action;
-	}
-	public void setAction(int action) {
-		this.action = action;
-	}
-	public ChatUserSimpleBean getAchatUser() {
-		return achatUser;
-	}
-	public void setAchatUser(ChatUserSimpleBean achatUser) {
-		this.achatUser = achatUser;
-	}
-	public ChatUserSimpleBean getBchatUser() {
-		return bchatUser;
-	}
-	public void setBchatUser(ChatUserSimpleBean bchatUser) {
-		this.bchatUser = bchatUser;
-	}
 	
+	@Mapping("a")
+	private int closeType;
+	@Mapping("b")
+	private int code;
+	@Mapping("c")
+	private String endTime;
+	@Mapping("d")
+	private int hd;//是否高清(0-普通的FLASH/3-高清助手)
+	@Mapping("e")
+	private int isRefresh;//isRefresh  是否刷新页面(0-刷新/1-不刷新)
+	@Mapping("f")
+	private int masterId;
+	@Mapping("g")
+	private String nickName;//主播昵称
+	@Mapping("h")
+	private int roomType;//房间类型（0-个人/1-三麦）
+	
+	public int getCloseType() {
+		return closeType;
+	}
+
+	public void setCloseType(int closeType) {
+		this.closeType = closeType;
+	}
+
+	public int getCode() {
+		return code;
+	}
+
+	public void setCode(int code) {
+		this.code = code;
+	}
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+
+	public int getHd() {
+		return hd;
+	}
+
+	public void setHd(int hd) {
+		this.hd = hd;
+	}
+
+	public int getIsRefresh() {
+		return isRefresh;
+	}
+
+	public void setIsRefresh(int isRefresh) {
+		this.isRefresh = isRefresh;
+	}
+
+	public int getMasterId() {
+		return masterId;
+	}
+
+	public void setMasterId(int masterId) {
+		this.masterId = masterId;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
+	public int getRoomType() {
+		return roomType;
+	}
+
+	public void setRoomType(int roomType) {
+		this.roomType = roomType;
+	}
+
 	@Override
 	public String toString() {
-		return "PacketAdminInfo [retcode=" + retcode + ", retmsg=" + retmsg
-				+ ", type=" + type + ", version=" + version + ", action="
-				+ action + ", achatUser=" + achatUser + ", bchatUser="
-				+ bchatUser + "]";
+		return "PacketLiveEnd [retcode=" + retcode + ", retmsg=" + retmsg
+				+ ", type=" + type + ", version=" + version + ", closeType="
+				+ closeType + ", code=" + code + ", endTime=" + endTime
+				+ ", hd=" + hd + ", isRefresh=" + isRefresh + ", masterId="
+				+ masterId + ", nickName=" + nickName + ", roomType="
+				+ roomType + "]";
 	}
 }

@@ -18,6 +18,8 @@ import com.bochatclient.packet.PacketUserCharm;
 import com.bochatclient.packet.PacketUserList;
 import com.bochatclient.packet.PacketUserMsg;
 import com.bochatclient.packet.PacketUserUpgrade;
+import com.bochatclient.packet.PacketVIPUpgrade;
+import com.bochatclient.packet.PacketYbTotal;
 
 public class PacketConstant {
 	
@@ -47,6 +49,8 @@ public class PacketConstant {
 		public static final int SYS_HEADLINE_MSG = (12<<16)+ 1;   // action 12 type 1头条消息
 		
 		public static final int SYS_HEART = (3<<16)+ 0;   // action 3 type 0 心跳包
+		public static final int VIP_UPLEVEL = (81<<16)+ 1;   // action 81 type 1 天龙角色vip升级消息
+		public static final int YUANBAO_TOTAL = (93<<16)+ 1;   // action 93 type 1 直播间的7日总数
 	}
 	
 	// 发送消息类型
@@ -54,6 +58,20 @@ public class PacketConstant {
 		public static final int MSG_PUB = 0;//公聊-所有人可见
 		public static final int MSG_PRV = 1;//私聊-所有人可见
 		public static final int MSG_PRVO = 2;//私聊-接收人可见
+	}
+	
+	//系统公告 广播消息展示类型
+	public static class SysBoradType{
+		public static final int BROAD_PUB = 0;//0-只在公聊显示
+		public static final int BROAD_PRV = 1;//1-只在私聊显示
+		public static final int BROAD_ALL = 2;//2-公聊私聊都显示
+	}
+	
+	//系统公告 广播消息跳转类型
+	public static class SysLinkType{
+		public static final int SYS_NORMAL = 0;//0-普通消息无跳转
+		public static final int SYS_GW = 1;//1-跳转到官网
+		public static final int SYS_ROOM = 2;//2-跳转到直播间
 	}
 	
 	// 用户类型
@@ -81,6 +99,7 @@ public class PacketConstant {
 	
 	public enum PacketClassEnum{
 		USER_MSG(PacketType.USER_MSG,PacketUserMsg.class),
+		USER_MSG_2(PacketType.USER_MSG_2,PacketUserMsg.class),
 		USER_LIST(PacketType.USER_LIST,PacketUserList.class),
 		SYST_MSG(PacketType.SYST_MSG,PacketSysMsg.class),
 		LIVE_START(PacketType.LIVE_START,PacketLiveStart.class),
@@ -100,7 +119,9 @@ public class PacketConstant {
 		USER_CHARM(PacketType.USER_CHARM,PacketUserCharm.class),
 		SYS_FP_MSG(PacketType.SYS_FP_MSG,PacketFPMsg.class),
 		SYS_BROADCAST_MSG(PacketType.SYS_BROADCAST_MSG,PacketBroadcast.class),
-		SYS_HEADLINE_MSG(PacketType.SYS_HEADLINE_MSG,PacketHeadline.class);
+		SYS_HEADLINE_MSG(PacketType.SYS_HEADLINE_MSG,PacketHeadline.class),
+		VIP_UPGRADE_MSG(PacketType.VIP_UPLEVEL,PacketVIPUpgrade.class),
+		YB_TOTAL_MSG(PacketType.YUANBAO_TOTAL,PacketYbTotal.class);
 		
 		private int key;
 		private Class clazz;
@@ -128,5 +149,43 @@ public class PacketConstant {
 		}
 	}
 	
-	
+	public enum CloseCodeEnum{
+		code_0(0,"初始默认"),
+		code_1(1,"异常关闭"),
+		code_2(2,"主播关闭"),
+		code_3(3,"管理关闭"),
+		code_4(4,"强制断流"),
+		code_5(5,"余额不足"),
+		code_6(6,"断流超时"),
+		code_7(7,"状态监测"),
+		code_8(8,"切麦关闭"),
+		code_9(9,"房间关闭"),
+		code_10(10,"封号/封IP");
+		
+		private int key;
+		private String name;
+		
+		CloseCodeEnum(int key,String name){
+			this.key = key;
+			this.name = name;
+		}
+		
+		public static String getPacket(int key) {  
+	        for (CloseCodeEnum c : CloseCodeEnum.values()) {  
+	            if (c.getKey() == key) {  
+	                return c.getName();
+	            }
+	        }  
+	        return null;  
+	    }
+
+		public int getKey() {
+			return key;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+	}
 }

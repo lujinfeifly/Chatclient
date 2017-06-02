@@ -13,7 +13,7 @@ public class ComboBean {
 	@Mapping("i")
 	private String userName;
 	@Mapping("c")
-	private int comboUuid;//combo 唯一标识
+	private String comboUuid;//combo 唯一标识
 	@Mapping("d")
 	private int giftCount;//礼物数量
 	@Mapping("g")
@@ -44,10 +44,10 @@ public class ComboBean {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public int getComboUuid() {
+	public String getComboUuid() {
 		return comboUuid;
 	}
-	public void setComboUuid(int comboUuid) {
+	public void setComboUuid(String comboUuid) {
 		this.comboUuid = comboUuid;
 	}
 	public int getGiftCount() {

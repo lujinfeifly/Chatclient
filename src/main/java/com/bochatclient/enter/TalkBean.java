@@ -11,8 +11,12 @@ public class TalkBean implements SendBean{
 		this.ct = msg;
 		this.toMasterId = toMasterId;
 		this.toMasterNick = toMasterNick;
-		if(action>0){
+		if(action==1){
 			this.pub = "1";
+			this._method_ = "SendPrvMsg";
+		}else if(action==2){
+			this.pub = "0";
+			this._method_ = "SendPrvMsg";
 		}
 	}
 
