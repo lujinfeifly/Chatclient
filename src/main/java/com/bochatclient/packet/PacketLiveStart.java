@@ -29,7 +29,7 @@ public class PacketLiveStart extends PacketBase{
 	@Mapping("j")
 	private String liveTime;//开播时间
 	@Mapping("m")
-	private int masterName;//masterName 主播名称
+	private String masterName;//masterName 主播名称
 	
 	@Mapping("n")
 	private int roomType;     // roomType  房间类型（0-个人/1-三麦）
@@ -43,7 +43,7 @@ public class PacketLiveStart extends PacketBase{
 	
 	@Mapping("s")
 	private String streamUrl;//流名
-	@Mapping(value="t",type="object")
+//	@Mapping(value="t",type="object")
 	private ChatUserSimpleBean chatUser;//主播信息
 	@Mapping("u")
 	private int way;// way  开播方式(0-普通/1-续播)
@@ -96,10 +96,10 @@ public class PacketLiveStart extends PacketBase{
 	public void setLiveTime(String liveTime) {
 		this.liveTime = liveTime;
 	}
-	public int getMasterName() {
+	public String getMasterName() {
 		return masterName;
 	}
-	public void setMasterName(int masterName) {
+	public void setMasterName(String masterName) {
 		this.masterName = masterName;
 	}
 	public int getRoomType() {
@@ -154,6 +154,6 @@ public class PacketLiveStart extends PacketBase{
 				+ ", masterName=" + masterName + ", roomType=" + roomType
 				+ ", showType=" + showType + ", streamName=" + streamName
 				+ ", terminal=" + terminal + ", streamUrl=" + streamUrl
-				+ ", chatUser=" + chatUser + ", way=" + way + "]";
+				+ ", way=" + way + "]";
 	}
 }

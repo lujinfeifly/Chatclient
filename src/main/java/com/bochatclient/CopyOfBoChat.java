@@ -33,9 +33,9 @@ import com.bochatclient.utils.BeanUtil;
 import com.bochatclient.utils.PageUtil;
 import com.bochatclient.utils.URLEncode;
  
-public class BoChat {
+public class CopyOfBoChat {
     private SocketChannel client;
-    private Selector selector;
+    private Selector selector = getSelector();
     private ThreadPoolExecutor threadPool = null;
  
     private MsgListener msgListener = null;
@@ -72,18 +72,17 @@ public class BoChat {
         return null;
     }
     
-    public BoChat(String ip,int port) throws Exception {
+    public CopyOfBoChat(String ip,int port) throws Exception {
         try {
         	System.out.println("创建BoChat！！！！！！！！！！！！！！！！！！！！！！！！！");
         	threadPool = new ThreadPoolExecutor(3, 5, 200, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(20));
             client = SocketChannel.open();
             client.configureBlocking(false);
             client.connect(new InetSocketAddress(ip,port));
-            selector = getSelector();
             client.register(selector, SelectionKey.OP_CONNECT);
         } catch (IOException e) {
             System.out.println("创建客户端连接异常Client2" + e.getMessage());
-//            close(true);//不需要抛出404错误
+            close(true);//不需要抛出404错误
             throw new Exception(e.getMessage());
         }
     }
@@ -94,18 +93,18 @@ public class BoChat {
     }
  
     private class SelectorGuardHandler implements Runnable {
-    	boolean flag = false;
+ 
         @Override
         public void run() {
  
-        	System.out.println("client connected status :"+client.isConnected());
-        	
             while (!isClose) {
                 try {
                     if (selector.select(10) == 0) {
+                    	System.out.println();
                         continue;
                     }
-                    flag = true;
+                    
+                    System.out.println("SelectorGuardHandler accept connect !!!!!!");
                     
                     Set<SelectionKey> selectionKeys = selector.selectedKeys();
                     Iterator<SelectionKey> iterator = selectionKeys.iterator();
@@ -113,12 +112,12 @@ public class BoChat {
                         SelectionKey selectionKey = iterator.next();
                         iterator.remove();
                         if (selectionKey.isReadable()) {
-//                            SocketChannel socketChannel = (SocketChannel) selectionKey.channel();
+                            SocketChannel socketChannel = (SocketChannel) selectionKey.channel();
                             if (isReading.get()) {
                                 Thread.sleep(5);
                             } else {
                                 isReading.set(true);
-                                threadPool.execute(new ReceiveMessageHandler(selectionKey));
+                                threadPool.execute(new ReceiveMessageHandler(socketChannel));
                             }
                         } else if (selectionKey.isWritable()) {
                             Object requestMessage = selectionKey.attachment();
@@ -197,13 +196,11 @@ public class BoChat {
      * 
      */
     private class ReceiveMessageHandler implements Runnable {
-        private SelectionKey key;
-        private SocketChannel socketChannel;
+        private SocketChannel client;
         private ByteBuffer dataLen = ByteBuffer.allocate(8);
  
-        private ReceiveMessageHandler(SelectionKey key) {
-            this.key = key;
-            this.socketChannel = (SocketChannel) key.channel();
+        private ReceiveMessageHandler(SocketChannel client) {
+            this.client = client;
         }
  
         @Override
@@ -212,18 +209,15 @@ public class BoChat {
                 dataLen.clear();
                 int len = 8;
                 while (len > 0) {
-                    int readLen = socketChannel.read(dataLen);
+                    int readLen = client.read(dataLen);
                     if (readLen < 0) {
                     	//服务器主动断开连接，关闭相关流信息
-                    	System.out.println("socket read data length:"+readLen);
-//                    	close(false);
-                    	socketChannel.close();
-                    	key.cancel();
+                    	close(false);
                     	return;
 //                        throw new Exception("readLen==" + readLen);
                     } else if (readLen == 0) {
-                        System.out.println(Thread.currentThread().getId() + "readLen == 0"+",dataLen:"+dataLen);
-                        continue;
+                        System.out.println(Thread.currentThread().getId() + "readLen == 0");
+                        return;
                     }
                     len -= readLen;
                 }
@@ -234,13 +228,12 @@ public class BoChat {
                 
                 ByteBuffer data = ByteBuffer.allocate(data_length-8);
                 while (data.hasRemaining()) {
-                	socketChannel.read(data);
+                    client.read(data);
                 }
                 
                 byte[] ss = URLEncode.unjzlib(data.array());
                 if(ss==null){
-                	readCount.incrementAndGet();
-                	System.out.println(Thread.currentThread().getId() + "  unjzlib 异常 ss:"+ss);
+                	System.out.println("unjzlib 异常 ss:"+ss);
                 	return;
                 }
                 String receiveData = new String(ss,"UTF-8");
@@ -269,7 +262,7 @@ public class BoChat {
                 readCount.incrementAndGet();
             } catch (Exception e) {
             	e.printStackTrace();
-                System.out.println(Thread.currentThread().getId() + "  客户端接收数据失败：" + e);
+                System.out.println("客户端接收数据失败：" + e);
                 close(false);
             } finally {
                 isReading.set(false);
@@ -334,10 +327,12 @@ public class BoChat {
         
         try {
             isWriting.set(true);
-            writeCount.incrementAndGet();
+            long wcount = writeCount.incrementAndGet();
+            System.out.println("消息发送次数："+wcount);
             client.register(selector, SelectionKey.OP_WRITE, data);
         } catch (Exception e) {
             System.out.println("客户端注册写通道异常：" + e.getMessage());
+//            errorListener.onError(404,ErrorEnum.getErrorMsg(404));
             close(false);
         }
     }

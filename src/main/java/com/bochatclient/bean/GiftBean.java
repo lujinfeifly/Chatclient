@@ -12,11 +12,18 @@ public class GiftBean {
 	private int isFree;//是否免费礼物 0-不是/1-是
 	private String giftIcon;//礼物图片
 	private int version;//礼物版本号
+	private long giftTime;//送礼时间
 	public long getGiftId() {
 		return giftId;
 	}
 	public void setGiftId(long giftId) {
 		this.giftId = giftId;
+	}
+	public long getGiftTime() {
+		return giftTime;
+	}
+	public void setGiftTime(long giftTime) {
+		this.giftTime = giftTime;
 	}
 	public boolean isComboAutoSwitch() {
 		return comboAutoSwitch;

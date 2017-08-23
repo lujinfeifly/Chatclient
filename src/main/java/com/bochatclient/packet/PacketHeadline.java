@@ -37,7 +37,7 @@ public class PacketHeadline extends PacketBase{
 	@Mapping("n")
 	private int masterLevel;//主播等级
 	@Mapping("o")
-	private String rcvUserName;//接收人名称
+	private String masterName;//接收人名称
 //	@Mapping("r")
 //	private String roomUrl;//房间地址
 	@Mapping("s")
@@ -46,7 +46,8 @@ public class PacketHeadline extends PacketBase{
 	private String sentUserName;//送礼人名称
 	@Mapping("v")
 	private int qingsheng;//情圣徽章
-	
+	@Mapping("p")
+	private long masterNo;//主播靓号
 	
 	public int getCharmLevel() {
 		return charmLevel;
@@ -120,13 +121,20 @@ public class PacketHeadline extends PacketBase{
 	public void setMasterLevel(int masterLevel) {
 		this.masterLevel = masterLevel;
 	}
-	public String getRcvUserName() {
-		return rcvUserName;
+	public String getMasterName() {
+		return masterName;
 	}
-	public void setRcvUserName(String rcvUserName) {
-		this.rcvUserName = rcvUserName;
+	public void setMasterName(String masterName) {
+		this.masterName = masterName;
 	}
-//	public String getRoomUrl() {
+	
+	public long getMasterNo() {
+		return masterNo;
+	}
+	public void setMasterNo(long masterNo) {
+		this.masterNo = masterNo;
+	}
+	//	public String getRoomUrl() {
 //		return roomUrl;
 //	}
 //	public void setRoomUrl(String roomUrl) {
@@ -159,8 +167,8 @@ public class PacketHeadline extends PacketBase{
 				+ fensiLevel + ", giftCount=" + giftCount + ", giftId="
 				+ giftId + ", giftName=" + giftName + ", roomId=" + roomId
 				+ ", roomName=" + roomName + ", time=" + time + ", vipLevel="
-				+ vipLevel + ", masterLevel=" + masterLevel + ", rcvUserName="
-				+ rcvUserName + ", sentCaifuLevel=" + sentCaifuLevel
+				+ vipLevel + ", masterLevel=" + masterLevel + ", masterName="
+				+ masterName + ", masterNo=" + masterNo + ", sentCaifuLevel=" + sentCaifuLevel
 				+ ", sentUserName=" + sentUserName + ", qingsheng=" + qingsheng
 				+ "]";
 	}

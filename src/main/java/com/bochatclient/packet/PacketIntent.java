@@ -57,6 +57,7 @@ public class PacketIntent {
 			}
 			
 			Object ct = msgjo.opt("ct");
+			System.out.println(ct);
 			if(ct instanceof String){//是json格式
 				try{
 					jobct = new JSONObject(ct.toString());
@@ -75,10 +76,13 @@ public class PacketIntent {
 						Iterator<String> iter = jarrjob.keys();
 						while (iter.hasNext()) {
 							String key = iter.next();
-							jobct.put(key, jarrjob.get(key));
+							Object obj = jarrjob.get(key).toString().equals("null")?"[]":jarrjob.get(key);
+							jobct.put(key, obj);
 						}
 					}
 				}
+			}else{
+				return null;
 			}
 			
 			Class<PacketBase> clazz = PacketConstant.PacketClassEnum.getPacket(iselect);
@@ -87,7 +91,10 @@ public class PacketIntent {
 				return null;
 			}
 			//ct是jsonObject 解析ct
-			if(jobct!=null&&iselect!=PacketConstant.PacketType.LOGIN_RET){
+			if(jobct!=null
+					&&iselect!=PacketConstant.PacketType.LOGIN_RET
+					&&iselect!=PacketConstant.PacketType.USER_INFO
+					&&iselect!=PacketConstant.PacketType.SYNC_MASTER){
 				packet = JSONHelper.jsonToObject(jobct, clazz);
 			}else{//ct 是 字符串或jsonArray
 				packet = JSONHelper.jsonToObject(msgjo, clazz);

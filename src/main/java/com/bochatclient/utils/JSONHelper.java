@@ -91,7 +91,7 @@ public class JSONHelper {
 							Class childClass = Class.forName(childClassName);
 							Object obj = json.opt(key);
 							JSONArray cjob = null;
-							if(obj!=null&&!"".equals(obj)){
+							if(obj!=null&&!"".equals(obj)&&null!=obj){
 								cjob = new JSONArray(obj.toString());
 								List list = new ArrayList();
 								for(int j=0;j<cjob.length();j++){

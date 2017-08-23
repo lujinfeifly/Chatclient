@@ -6,6 +6,7 @@ import com.bochatclient.packet.PacketBroadcast;
 import com.bochatclient.packet.PacketChatInfo;
 import com.bochatclient.packet.PacketFPMsg;
 import com.bochatclient.packet.PacketGiftComboMsg;
+import com.bochatclient.packet.PacketGiftFail;
 import com.bochatclient.packet.PacketGiftMsg;
 import com.bochatclient.packet.PacketHeadline;
 import com.bochatclient.packet.PacketLiveEnd;
@@ -13,8 +14,10 @@ import com.bochatclient.packet.PacketLiveStart;
 import com.bochatclient.packet.PacketLoginRet;
 import com.bochatclient.packet.PacketLogoutRet;
 import com.bochatclient.packet.PacketOnlineCountRet;
+import com.bochatclient.packet.PacketSubCount;
 import com.bochatclient.packet.PacketSysMsg;
 import com.bochatclient.packet.PacketUserCharm;
+import com.bochatclient.packet.PacketUserInfo;
 import com.bochatclient.packet.PacketUserList;
 import com.bochatclient.packet.PacketUserMsg;
 import com.bochatclient.packet.PacketUserUpgrade;
@@ -27,7 +30,8 @@ public class PacketConstant {
 		public static final int USER_MSG = (0<<16) + 2;     // action 0 type 2  公聊消息
 		public static final int USER_MSG_1 = (1<<16) + 2;     // action 1 type 2       用户消息
 		public static final int USER_MSG_2 = (2<<16) + 2;     // action 2 type 2       用户消息
-		public static final int USER_LIST = (0<<16) + 6;     // action 0 type 6      用户消息
+//		public static final int USER_LIST = (0<<16) + 6;     // action 0 type 6      观众列表
+		public static final int USER_LIST = (1<<16) + 6;     // action 1 type 6      观众列表（移动端定制）
 		public static final int SYST_MSG = (24<<16) + 1;    // action 24 type 1     系统公告
 		public static final int LIVE_START = (15<<16) + 1;    // action 15 type 1    开播通知
 		public static final int LIVE_END = (18<<16) + 1;    // action 18 type 1     关播通知
@@ -51,6 +55,9 @@ public class PacketConstant {
 		public static final int SYS_HEART = (3<<16)+ 0;   // action 3 type 0 心跳包
 		public static final int VIP_UPLEVEL = (81<<16)+ 1;   // action 81 type 1 天龙角色vip升级消息
 		public static final int YUANBAO_TOTAL = (93<<16)+ 1;   // action 93 type 1 直播间的7日总数
+		public static final int SUB_TOTAL = (66<<16)+ 1;   // action 66 type 1 关注数同步
+		public static final int SEND_GIFT_FAIL = (111<<16)+1;	// action 111 type 1 送礼结果返回
+		public static final int USER_INFO = (4<<16) + 2;     // action 4 type 2       用户详细信息
 	}
 	
 	// 发送消息类型
@@ -100,6 +107,7 @@ public class PacketConstant {
 	public enum PacketClassEnum{
 		USER_MSG(PacketType.USER_MSG,PacketUserMsg.class),
 		USER_MSG_2(PacketType.USER_MSG_2,PacketUserMsg.class),
+//		USER_LIST(PacketType.USER_LIST,PacketUserList.class),
 		USER_LIST(PacketType.USER_LIST,PacketUserList.class),
 		SYST_MSG(PacketType.SYST_MSG,PacketSysMsg.class),
 		LIVE_START(PacketType.LIVE_START,PacketLiveStart.class),
@@ -109,7 +117,7 @@ public class PacketConstant {
 		LOGIN_RET(PacketType.LOGIN_RET,PacketLoginRet.class),
 		LEAVE_ROOM(PacketType.LEAVE_ROOM,PacketLogoutRet.class),
 		SYNC_COUNT(PacketType.SYNC_COUNT,PacketOnlineCountRet.class),
-//		SYNC_MASTER(PacketType.SYNC_MASTER,PacketUserMsg.class),
+		SYNC_MASTER(PacketType.SYNC_MASTER,PacketUserInfo.class),
 		SYST_CHAT(PacketType.SYST_CHAT,PacketChatInfo.class),
 		SYST_BANNED_CHAT(PacketType.SYST_BANNED_CHAT,PacketBannedInfo.class),
 		SYST_UNBANNED_CHAT(PacketType.SYST_UNBANNED_CHAT,PacketBannedInfo.class),
@@ -121,7 +129,11 @@ public class PacketConstant {
 		SYS_BROADCAST_MSG(PacketType.SYS_BROADCAST_MSG,PacketBroadcast.class),
 		SYS_HEADLINE_MSG(PacketType.SYS_HEADLINE_MSG,PacketHeadline.class),
 		VIP_UPGRADE_MSG(PacketType.VIP_UPLEVEL,PacketVIPUpgrade.class),
-		YB_TOTAL_MSG(PacketType.YUANBAO_TOTAL,PacketYbTotal.class);
+		YB_TOTAL_MSG(PacketType.YUANBAO_TOTAL,PacketYbTotal.class),
+		SUB_TOTAL_MSG(PacketType.SUB_TOTAL,PacketSubCount.class),
+		SEND_GIFT_RET(PacketType.SEND_GIFT_FAIL,PacketGiftFail.class),
+		USER_INFO_MSG(PacketType.USER_INFO,PacketUserInfo.class);
+		
 		
 		private int key;
 		private Class clazz;

@@ -25,6 +25,8 @@ public class PacketGiftMsg extends PacketBase {
 	private String giftIcon;//礼物图片
 	@Mapping("c6")
 	private int version;//版本号
+	@Mapping("c1")
+	private String guid;//角色guid
 	//---用户信息----
 	@Mapping("bb")
 	private int userId;
@@ -36,7 +38,8 @@ public class PacketGiftMsg extends PacketBase {
 	private int caifuLevel;
 	@Mapping("c2")
 	private int userType;
-	
+	@Mapping("c7")
+	private long giftTime;
 	
 	private ChatUserSimpleBean userBean;
 	private GiftBean giftBean;
@@ -72,6 +75,10 @@ public class PacketGiftMsg extends PacketBase {
 	public void setIsFree(int isFree) {
 		this.isFree = isFree;
 	}
+	
+	public void setGiftTime(long giftTime) {
+		this.giftTime = giftTime;
+	}
 
 	public void setGiftIcon(String giftIcon) {
 		this.giftIcon = giftIcon;
@@ -101,36 +108,42 @@ public class PacketGiftMsg extends PacketBase {
 		this.userBean = userBean;
 	}
 
-	public void setGiftBean(GiftBean giftBean) {
-		this.giftBean = giftBean;
-	}
-	
 	public void setVersion(int version) {
 		this.version = version;
 	}
 
+	public void setGuid(String guid) {
+		this.guid = guid;
+	}
+
 	public ChatUserSimpleBean getUserBean() {
-		userBean=new ChatUserSimpleBean();
-		userBean.setUserId(userId);
-		userBean.setUserName(userName);
-		userBean.setFensiLevel(fensiLevel);
-		userBean.setCaifuLevel(caifuLevel);
-		userBean.setUserType(userType);
+		if(userBean==null){
+			userBean = new ChatUserSimpleBean();
+			userBean.setUserId(userId);
+			userBean.setUserName(userName);
+			userBean.setFensiLevel(fensiLevel);
+			userBean.setCaifuLevel(caifuLevel);
+			userBean.setUserType(userType);
+			userBean.setGuid(guid);
+		}
 		return userBean;
 	}
 
 	public GiftBean getGiftBean() {
-		giftBean=new GiftBean();
-		giftBean.setIsFree(isFree);
-		giftBean.setGiftId(giftId);
-		giftBean.setGiftName(giftName);
-		giftBean.setGiftCount(giftCount);
-		giftBean.setComboAutoSwitch(comboAutoSwitch);
-		giftBean.setComboFlag(comboFlag);
-		giftBean.setComboGroupNum(comboGroupNum);
-		giftBean.setComboNum(comboNum);
-		giftBean.setGiftIcon(giftIcon);
-		giftBean.setVersion(version);
+		if(giftBean==null){
+			giftBean = new GiftBean();
+			giftBean.setIsFree(isFree);
+			giftBean.setGiftId(giftId);
+			giftBean.setGiftName(giftName);
+			giftBean.setGiftCount(giftCount);
+			giftBean.setGiftTime(giftTime);
+			giftBean.setComboAutoSwitch(comboAutoSwitch);
+			giftBean.setComboFlag(comboFlag);
+			giftBean.setComboGroupNum(comboGroupNum);
+			giftBean.setComboNum(comboNum);
+			giftBean.setGiftIcon(giftIcon);
+			giftBean.setVersion(version);
+		}
 		return giftBean;
 	}
 

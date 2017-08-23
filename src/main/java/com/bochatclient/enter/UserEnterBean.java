@@ -66,6 +66,9 @@ public class UserEnterBean implements SendBean{
 	public String getIsReConnect() {
 		return isReConnect;
 	}
+	public void setIsReConnect(String isReConnect) {
+		this.isReConnect = isReConnect;
+	}
 	public String getV() {
 		return v;
 	}

@@ -3,6 +3,7 @@ package com.bochatclient.utils;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import com.jcraft.jzlib.ZInputStream;
 
@@ -142,7 +143,7 @@ public class URLEncode {
 		try {
 			ByteArrayInputStream in = new ByteArrayInputStream(object);
 			@SuppressWarnings("deprecation")
-			ZInputStream zIn = new ZInputStream(in);
+			InputStream zIn = new ZInputStream(in);
 			byte[] buf = new byte[1024];
 			int num = -1;
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -160,4 +161,5 @@ public class URLEncode {
 		}
 		return data;
 	}
+    
 }

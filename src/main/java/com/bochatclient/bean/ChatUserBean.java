@@ -6,6 +6,53 @@ import com.bochatclient.utils.GuidUtil;
 
 public class ChatUserBean {
 
+//	"a":  “”,      //agent, 字段说明不详
+//	"bb":   123,      //masterId 用户ID
+//	"c":   “”,      //anchorUid 主播ID
+//	"d":  12,      //charmLevel 魅力等级
+//	"e":  12123,      //equipmentScore 装备历史最高评分
+//	"f":  “”,      //expireSoon 背包内是否存在即将过期商品(json)
+//	"g":  “”,      //extraInfo 进场动画
+//	"h":  12,      //fanLevel 财富等级
+//	"i":  0,      // hidden 是否隐身（0-不隐身/1-隐身）
+//	"j":  “12”,      // icon 头像ID
+//	"k":  “”,      // ip 用户登录IP
+//	"l":  true,      // isAnchor 是否是主播	
+//	"m":  0,      // isReConnect 是否断线重连
+//	"o":  12,      // masterLevel 主播等级
+//	"p":  12,      // masterNick 用户昵称
+//	"q":  “null”,      // masterNo  用户靓号
+//	"r":  “0”,      // masterNoFlag 靓号相关，目前无用
+//	"s":  null,      // masterNoSwf 靓号的swf路径
+//	"t":  12,      // menPai 门派ID
+//	"u":  12,      // nextFanLevel 下一财富等级
+//	"v":  5,      // nextFansLevel 下一粉丝等级
+//	"w":  0,      // nextMasterLevel 下一主播等级
+//	"x":  0,      // privateChat 是否允许私聊
+//	"y":  12,      // roleId 角色ID
+//	"z":  12,      // roleLevel 角色等级
+//	"a1":  “1,3”,      // roomRole 房间角色
+//	"a2":  1123002485,      // sortNum 排序
+//	"a3":  12,      // teamId 战队ID
+//	"a4":  “”,      // tlbbUid 角色GUID
+//	"a5":  8,      // tlbbVip 角色天龙VIP
+//	"a7":  “”,      //username 用户名
+//	"a8":  50,      // userType 用户类型(5-假人/10-巡官/30-观众/40-管理员/50-主播)
+//	"a9":  0,      // vipType VIP类型（目前无用）
+//	"b1":  “”,      // zoneSeverName 大区名称
+//	"b2":  50,      // fansExperience 粉丝经验
+//	"b3":  2,      // fansLevel 粉丝等级
+//	"b4":  “”,      // teamName 战队名称
+//	"c3":  “”,      // terminal 端标识
+
+	@Mapping("z")
+	private int roleLevel;//角色等级
+	@Mapping("x")
+	private int privateChat;//是否允许私聊 
+	@Mapping("e")
+	private long equipmentScore;//装备评分
+	@Mapping("t")
+	private int menPaiId;
 	
 	@Mapping("bb")
 	private int userId;//用户id
@@ -22,7 +69,9 @@ public class ChatUserBean {
 	@Mapping("p")
 	private String userName;//用户昵称
 	@Mapping("a4")
-	private String roleId;//角色id
+	private String guid;//角色id
+	@Mapping("y")
+	private long roleId;//角色id
 	@Mapping("a8")
 	private int userType;
 	@Mapping("b1")
@@ -31,10 +80,36 @@ public class ChatUserBean {
 	private int fensiLevel;//粉丝等级
 	@Mapping("a1")
 	private String roomRoles;//房间角色,一个人可能承担多个角色
+	@Mapping("a2")
+	private long sortNum;//粉丝等级
 	
 	@Mapping(value="g",type="object")
 	private ExtraInfoBean extraInfo;
 	
+	public int getRoleLevel() {
+		return roleLevel;
+	}
+	public void setRoleLevel(int roleLevel) {
+		this.roleLevel = roleLevel;
+	}
+	public int getPrivateChat() {
+		return privateChat;
+	}
+	public void setPrivateChat(int privateChat) {
+		this.privateChat = privateChat;
+	}
+	public long getEquipmentScore() {
+		return equipmentScore;
+	}
+	public void setEquipmentScore(long equipmentScore) {
+		this.equipmentScore = equipmentScore;
+	}
+	public int getMenPaiId() {
+		return menPaiId;
+	}
+	public void setMenPaiId(int menPaiId) {
+		this.menPaiId = menPaiId;
+	}
 	public int getUserId() {
 		return userId;
 	}
@@ -71,7 +146,12 @@ public class ChatUserBean {
 	public void setMasterLevel(int masterLevel) {
 		this.masterLevel = masterLevel;
 	}
-	
+	public long getSortNum() {
+		return sortNum;
+	}
+	public void setSortNum(long sortNum) {
+		this.sortNum = sortNum;
+	}
 	public int getCharmLevel() {
 		return charmLevel;
 	}
@@ -84,19 +164,25 @@ public class ChatUserBean {
 	public void setRoomRoles(String roomRoles) {
 		this.roomRoles = roomRoles;
 	}
-	public String getRoleId() {
+	public long getRoleId() {
 		return roleId;
 	}
-	public void setRoleId(String roleId) {
+	public void setRoleId(long roleId) {
 		this.roleId = roleId;
 	}
 	
+	public String getGuid() {
+		return guid;
+	}
+	public void setGuid(String guid) {
+		this.guid = guid;
+	}
 	public int getGuidH(){
-		return GuidUtil.getGuidhAndGuidl(roleId)[0];
+		return GuidUtil.getGuidhAndGuidl(guid)[0];
 	}
 	
 	public int getGuidL(){
-		return GuidUtil.getGuidhAndGuidl(roleId)[1];
+		return GuidUtil.getGuidhAndGuidl(guid)[1];
 	}
 	
 	public int getUserType() {

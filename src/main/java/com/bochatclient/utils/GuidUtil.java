@@ -41,17 +41,22 @@ public class GuidUtil {
 		System.out.println(getGuidhAndGuidl("234702011290AA7D")[0]+"--"+getGuidhAndGuidl("234702011290AA7D")[1]);;
 	}
 	public static Integer[] getGuidhAndGuidl(String str) {
-		if(str==null||"".equals(str)){
+		try{
+			if(str==null||"".equals(str)){
+				return new Integer[]{0,0};
+			}
+	//		Long li = Long.valueOf(Long.parseLong(str));
+	//		String hexstr = Long.toHexString(li.longValue());
+			int split = str.length() - 8;
+			String befstr = str.substring(0, split);
+			String endstr = str.substring(split);
+			Integer beflong = Integer.valueOf(Integer.parseInt(befstr, 16));
+			Integer endlong = Integer.valueOf(Integer.parseInt(endstr, 16));
+			Integer[] guids = { beflong, endlong };
+			return guids;
+		}catch(Exception e){
 			return new Integer[]{0,0};
 		}
-//		Long li = Long.valueOf(Long.parseLong(str));
-//		String hexstr = Long.toHexString(li.longValue());
-		int split = str.length() - 8;
-		String befstr = str.substring(0, split);
-		String endstr = str.substring(split);
-		Integer beflong = Integer.valueOf(Integer.parseInt(befstr, 16));
-		Integer endlong = Integer.valueOf(Integer.parseInt(endstr, 16));
-		Integer[] guids = { beflong, endlong };
-		return guids;
+		
 	}
 }

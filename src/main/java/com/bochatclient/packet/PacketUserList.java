@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bochatclient.annotation.Mapping;
+import com.bochatclient.bean.ChatUserListBean;
 import com.bochatclient.bean.ChatUserSimpleBean;
 import com.bochatclient.cache.Cache;
 import com.bochatclient.cache.CacheManager;
+import com.bochatclient.utils.PageUtil;
 
 
 /**
@@ -25,7 +27,6 @@ public class PacketUserList extends PacketBase{
 	private int nextPage;//1：可翻页
 	@Mapping("d")
 	private int pageNum;//当前页数
-	private int pageSize=40;//每页人数
 	
 	@Mapping("b")
 	private int caifuCount;
@@ -55,7 +56,7 @@ public class PacketUserList extends PacketBase{
 //		if(total>0){
 //			JSONObject ctB = (JSONObject) ctArray.opt(1);
 //			JSONArray ulistArray = ctB.optJSONArray("h");//用户列表
-//			userList = new ArrayList<ChatUserSimpleBean>();
+//			userList = new ArrayList<ChatUserListBean>();
 //			
 //			
 //			int caifuCount = ctA.optInt("b");//财富用户数
@@ -70,10 +71,10 @@ public class PacketUserList extends PacketBase{
 //				length = caifuCount-((pageNum-1)*page.getPageSize());
 //			}
 //			
-//			List<ChatUserSimpleBean> normalUserList = new ArrayList<ChatUserSimpleBean>();
+//			List<ChatUserListBean> normalUserList = new ArrayList<ChatUserListBean>();
 //			for(int i=0;i<ulistArray.length();i++){
 //				JSONObject ujob = ulistArray.optJSONObject(i);
-//				ChatUserSimpleBean userBean = JSONHelper.jsonToObject(ujob, ChatUserSimpleBean.class);
+//				ChatUserListBean userBean = JSONHelper.jsonToObject(ujob, ChatUserListBean.class);
 //				if(i<length){
 //					userList.add(userBean);
 //				}else{//普通用户
@@ -91,7 +92,7 @@ public class PacketUserList extends PacketBase{
 //			if(length<=0){//没有下一页，显示普通用户
 //				for(int i=1;i<=pageNum;i++){
 //					Cache cache = CacheManager.getCacheInfo("userList_"+i);
-//					List<ChatUserSimpleBean> list = (List<ChatUserSimpleBean>) cache.getValue();
+//					List<ChatUserListBean> list = (List<ChatUserListBean>) cache.getValue();
 //					if(list!=null){
 //						userList.addAll(list);
 //					}
@@ -121,12 +122,6 @@ public class PacketUserList extends PacketBase{
 	public void setPageNum(int pageNum) {
 		this.pageNum = pageNum;
 	}
-	public int getPageSize() {
-		return pageSize;
-	}
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
-	}
 	
 	public int getCaifuCount() {
 		return caifuCount;
@@ -141,48 +136,51 @@ public class PacketUserList extends PacketBase{
 		this.normalCount = normalCount;
 	}
 	public void setUserList(List<ChatUserSimpleBean> auserList) {
-		//对list分组处理
-		int length = auserList.size();
-		int showSize = pageNum*pageSize;//已经显示了财富用户数量
-		if(showSize<caifuCount){
-			length = 40;//财富用户数量为40
-		}else{
-			length = caifuCount-((pageNum-1)*pageSize);
-		}
-		
-		this.userList = new ArrayList<ChatUserSimpleBean>();
-		List<ChatUserSimpleBean> normalUserList = new ArrayList<ChatUserSimpleBean>();
-		for(int i=0;i<auserList.size();i++){
-			ChatUserSimpleBean userBean = auserList.get(i);
-			if(i<length){
-				this.userList.add(userBean);
-			}else{//普通用户
-				normalUserList.add(userBean);
-			}
-		}
-		
-		//重新加载第一页时，清除普通用户缓存
-		if(pageNum==1){
-			CacheManager.clearAll("userList_");
-		}
-		
-		CacheManager.putCacheInfo("userList_"+pageNum, normalUserList);
-
-		if(length<=0){//没有下一页，显示普通用户
-			for(int i=1;i<=pageNum;i++){
-				Cache cache = CacheManager.getCacheInfo("userList_"+i);
-				List<ChatUserSimpleBean> list = (List<ChatUserSimpleBean>) cache.getValue();
-				if(list!=null){
-					this.userList.addAll(list);
-				}
-			}
-		}
+		this.userList = auserList;
+				
+//		//对list分组处理
+//		int length = auserList.size();
+//		int showSize = pageNum*PageUtil.pageSize;//已经显示了财富用户数量
+//		if(showSize<caifuCount){
+//			length = PageUtil.pageSize;//财富用户数量为40
+//		}else{
+//			length = caifuCount-((pageNum-1)*PageUtil.pageSize);
+//		}
+//		
+//		this.userList = new ArrayList<ChatUserListBean>();
+//		List<ChatUserListBean> normalUserList = new ArrayList<ChatUserListBean>();
+//		for(int i=0;i<auserList.size();i++){
+//			ChatUserListBean userBean = auserList.get(i);
+//			if(i<length){
+//				this.userList.add(userBean);
+//			}else{//普通用户
+//				normalUserList.add(userBean);
+//			}
+//		}
+//		
+//		//重新加载第一页时，清除普通用户缓存
+//		if(pageNum==1){
+//			CacheManager.clearAll("userList_");
+//		}
+//		
+//		CacheManager.putCacheInfo("userList_"+pageNum, normalUserList);
+//
+//		if(length<=0){//没有下一页，显示普通用户
+//			for(int i=1;i<=pageNum;i++){
+//				Cache cache = CacheManager.getCacheInfo("userList_"+i);
+//				List<ChatUserListBean> list = (List<ChatUserListBean>) cache.getValue();
+//				if(list!=null){
+//					this.userList.addAll(list);
+//					list.clear();//清空给客户端返回的数据
+//				}
+//			}
+//		}
 	}
 	@Override
 	public String toString() {
 		return "PacketUserList [retcode=" + retcode + ", retmsg=" + retmsg
 				+ ", type=" + type + ", version=" + version + ", total="
 				+ total + ", nextPage=" + nextPage + ", pageNum=" + pageNum
-				+ ", pageSize=" + pageSize + ", userList=" + userList + "]";
+				+ ", pageSize=" + PageUtil.pageSize + ", userList=" + userList + "]";
 	}
 }

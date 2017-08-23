@@ -14,7 +14,7 @@ import com.bochatclient.buffer.InputCircleBuffer;
 import com.bochatclient.enter.QueryListBean;
 import com.bochatclient.enter.TalkBean;
 import com.bochatclient.enter.UserEnterBean;
-import com.bochatclient.enter.UserMsgBean;
+import com.bochatclient.enter.UserInfoBean;
 import com.bochatclient.enums.ErrorEnum;
 import com.bochatclient.exception.BoException;
 import com.bochatclient.listener.ErrorListener;
@@ -124,9 +124,9 @@ public class BoChatClient {
 		}
 	}
 	
-	public void sendQueryList(String pno, String rpp ) {
+	public void sendQueryList(String pno, String rpp ,String uType) {
 		try {
-			dos.write(getListPacket(pno, rpp));
+			dos.write(getListPacket(pno, rpp, uType));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -297,9 +297,9 @@ public class BoChatClient {
 	}
 	
 	// 获取聊天室成员列表请求包
-	public byte[] getListPacket(String pno, String rpp ) {
+	public byte[] getListPacket(String pno, String rpp ,String uType) {
 		
-		JSONObject job = new JSONObject(BeanUtil.beanToJson(new QueryListBean(loginBean.getRid(), loginBean.getUid(), pno, rpp)));
+		JSONObject job = new JSONObject(BeanUtil.beanToJson(new QueryListBean(pno, rpp, uType)));
 		byte[] packetContent = job.toString().getBytes();
 		
 //		byte[] packetContent = (new Gson()).toJson(new QueryListBean(loginBean.getRid(), loginBean.getUid(), pno, rpp)).getBytes();
@@ -312,7 +312,7 @@ public class BoChatClient {
 		ret[2] = (byte) (headint >> 8 & 0xff);
 		ret[3] = (byte) (headint & 0xff);
 		
-		ret[4] = 0;
+		ret[4] = 1;
 		ret[5] = 6;
 		
 		for (int i = 0; i < len; i++) {
@@ -323,7 +323,7 @@ public class BoChatClient {
 	
 	public byte[] getUserInfoPacket(String uid) {
 		
-		JSONObject job = new JSONObject(BeanUtil.beanToJson(new UserMsgBean(loginBean.getRid(), loginBean.getUid(), uid)));
+		JSONObject job = new JSONObject(BeanUtil.beanToJson(new UserInfoBean(uid)));
 		byte[] packetContent = job.toString().getBytes();
 		
 //		byte[] packetContent = (new Gson()).toJson(new UserMsgBean(loginBean.getRid(), loginBean.getUid(), uid)).getBytes();

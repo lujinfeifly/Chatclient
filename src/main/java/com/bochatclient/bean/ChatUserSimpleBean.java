@@ -20,7 +20,9 @@ public class ChatUserSimpleBean {
 	@Mapping("p")
 	private String userName;//用户昵称
 	@Mapping("a4")
-	private String roleId;//角色id
+	private String guid;//角色id
+	@Mapping("y")
+	private long roleId;//角色id
 	@Mapping("a8")
 	private int userType;
 	@Mapping("b1")
@@ -29,6 +31,8 @@ public class ChatUserSimpleBean {
 	private int fensiLevel;//粉丝等级
 	@Mapping("a1")
 	private String roomRoles;//房间角色,一个人可能承担多个角色
+	@Mapping("a2")
+	private long sortNum;//粉丝等级
 	
 	@Mapping(value="g",type="object")
 	private ExtraInfoBean extraInfo;
@@ -69,7 +73,12 @@ public class ChatUserSimpleBean {
 	public void setMasterLevel(int masterLevel) {
 		this.masterLevel = masterLevel;
 	}
-	
+	public long getSortNum() {
+		return sortNum;
+	}
+	public void setSortNum(long sortNum) {
+		this.sortNum = sortNum;
+	}
 	public int getCharmLevel() {
 		return charmLevel;
 	}
@@ -82,19 +91,24 @@ public class ChatUserSimpleBean {
 	public void setRoomRoles(String roomRoles) {
 		this.roomRoles = roomRoles;
 	}
-	public String getRoleId() {
+	public long getRoleId() {
 		return roleId;
 	}
-	public void setRoleId(String roleId) {
+	public void setRoleId(long roleId) {
 		this.roleId = roleId;
 	}
-	
+	public String getGuid() {
+		return guid;
+	}
+	public void setGuid(String guid) {
+		this.guid = guid;
+	}
 	public int getGuidH(){
-		return GuidUtil.getGuidhAndGuidl(roleId)[0];
+		return GuidUtil.getGuidhAndGuidl(guid)[0];
 	}
 	
 	public int getGuidL(){
-		return GuidUtil.getGuidhAndGuidl(roleId)[1];
+		return GuidUtil.getGuidhAndGuidl(guid)[1];
 	}
 	
 	public int getUserType() {
