@@ -3,6 +3,7 @@ package com.bochatclient.bean;
 public class GiftBean {
 	
 	private long giftId;
+	private String giftUid;
 	private boolean comboAutoSwitch;//连击开关
 	private int comboGroupNum;//连击组数
 	private int comboNum;//连击次数
@@ -13,6 +14,13 @@ public class GiftBean {
 	private String giftIcon;//礼物图片
 	private int version;//礼物版本号
 	private long giftTime;//送礼时间
+	
+	public String getGiftUid() {
+		return giftUid;
+	}
+	public void setGiftUid(String giftUid) {
+		this.giftUid = giftUid;
+	}
 	public long getGiftId() {
 		return giftId;
 	}

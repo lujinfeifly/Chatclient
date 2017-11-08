@@ -1,5 +1,7 @@
 package com;
 
+import org.json.JSONObject;
+
 import com.bochatclient.BoChat;
 import com.bochatclient.BoChatClient;
 import com.bochatclient.enter.UserEnterBean;
@@ -38,6 +40,13 @@ public class Main implements MsgListener, ErrorListener{
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}
+		
+		JSONObject job = new JSONObject();
+		job.put("renms", "123");
+
+		int name = job.optInt("age");
+		System.out.println(name);
+		
 //		main.client.sendQueryUserInfo("123");
 //		main.client.sendMessage("ssssssssssssssssssss",0,"","");
 //		main.client.sendQueryList("1", "20", "1");

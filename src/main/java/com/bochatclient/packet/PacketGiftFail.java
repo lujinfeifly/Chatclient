@@ -11,6 +11,8 @@ public class PacketGiftFail extends PacketBase {
 	private String msg;
 	@Mapping("giftUID")
 	private String giftUuid;
+	@Mapping("code")
+	private String code;
 	
 	public int getMasterId() {
 		return masterId;
@@ -30,10 +32,16 @@ public class PacketGiftFail extends PacketBase {
 	public void setGiftUuid(String giftUuid) {
 		this.giftUuid = giftUuid;
 	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	
 	@Override
 	public String toString() {
-		return "PacketGiftRet [retcode=" + retcode + ", retmsg=" + retmsg
-				+ ", type=" + type + ", version=" + version + ", masterId="
-				+ masterId + ", msg=" + msg + ", giftUuid=" + giftUuid + "]";
+		return "PacketGiftFail [retcode=" + retcode + ", retmsg=" + retmsg + ", type=" + type + ", version=" + version
+				+ ", masterId=" + masterId + ", msg=" + msg + ", giftUuid=" + giftUuid + ", code=" + code + "]";
 	}
 }

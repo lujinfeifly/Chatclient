@@ -5,9 +5,8 @@ package com.bochatclient.enter;
  * @author renms
  *
  */
-public class UserInfoBean implements SendBean{
+public class UserInfoBean extends SendBean{
 	private String bb;
-	private String v = "0";
 	
 	public UserInfoBean(String bb) {
 		this.bb = bb;
@@ -16,10 +15,5 @@ public class UserInfoBean implements SendBean{
 	public String getBb() {
 		return bb;
 	}
-
-	public String getV() {
-		return v;
-	}
-
 	
 }

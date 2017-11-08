@@ -6,6 +6,7 @@ import com.bochatclient.packet.PacketBroadcast;
 import com.bochatclient.packet.PacketChatInfo;
 import com.bochatclient.packet.PacketFPMsg;
 import com.bochatclient.packet.PacketGiftComboMsg;
+import com.bochatclient.packet.PacketGiftFMsg;
 import com.bochatclient.packet.PacketGiftFail;
 import com.bochatclient.packet.PacketGiftMsg;
 import com.bochatclient.packet.PacketHeadline;
@@ -58,6 +59,7 @@ public class PacketConstant {
 		public static final int SUB_TOTAL = (66<<16)+ 1;   // action 66 type 1 关注数同步
 		public static final int SEND_GIFT_FAIL = (111<<16)+1;	// action 111 type 1 送礼结果返回
 		public static final int USER_INFO = (4<<16) + 2;     // action 4 type 2       用户详细信息
+		public static final int FREE_GIFT_MSG = (102<<16) + 1;     // action 102 type 1     免费礼物消息
 	}
 	
 	// 发送消息类型
@@ -132,8 +134,8 @@ public class PacketConstant {
 		YB_TOTAL_MSG(PacketType.YUANBAO_TOTAL,PacketYbTotal.class),
 		SUB_TOTAL_MSG(PacketType.SUB_TOTAL,PacketSubCount.class),
 		SEND_GIFT_RET(PacketType.SEND_GIFT_FAIL,PacketGiftFail.class),
-		USER_INFO_MSG(PacketType.USER_INFO,PacketUserInfo.class);
-		
+		USER_INFO_MSG(PacketType.USER_INFO,PacketUserInfo.class),
+		FREE_GIFT_MSG(PacketType.FREE_GIFT_MSG,PacketGiftFMsg.class);
 		
 		private int key;
 		private Class clazz;

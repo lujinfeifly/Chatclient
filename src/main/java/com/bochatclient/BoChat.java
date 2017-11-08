@@ -97,9 +97,6 @@ public class BoChat {
     	boolean flag = false;
         @Override
         public void run() {
- 
-        	System.out.println("client connected status :"+client.isConnected());
-        	
             while (!isClose) {
                 try {
                     if (selector.select(10) == 0) {
@@ -352,12 +349,25 @@ public class BoChat {
     
     
     public void enterroom(UserEnterBean loginBean) {
-    	this.loginBean = loginBean;
-		try {
-			this.writeBytes(encodePacket(0, 0,loginBean));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+    	boolean flag = true;
+    	while(flag){
+    		System.out.println("client connected state :"+client.isConnected());
+    		if(client.isConnected()){
+    			this.loginBean = loginBean;
+    			try {
+    				this.writeBytes(encodePacket(0, 0,loginBean));
+    			} catch (Exception e) {
+    				e.printStackTrace();
+    			}
+    			flag = false;
+    		}else{
+    			try {
+					Thread.sleep(50);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+    		}
+    	}
 	}
     
     /**

@@ -7,6 +7,8 @@ import com.bochatclient.bean.GiftBean;
 public class PacketGiftMsg extends PacketBase {
 	@Mapping("n")
 	private long giftId;
+	@Mapping("w")
+	private String giftUId;
 	@Mapping("a")
 	private boolean comboAutoSwitch;//连击开关
 	@Mapping("b")
@@ -40,7 +42,8 @@ public class PacketGiftMsg extends PacketBase {
 	private int userType;
 	@Mapping("c7")
 	private long giftTime;
-	
+	@Mapping("c8")
+	private long roleId;//送礼人roleId
 	private ChatUserSimpleBean userBean;
 	private GiftBean giftBean;
 	
@@ -115,6 +118,18 @@ public class PacketGiftMsg extends PacketBase {
 	public void setGuid(String guid) {
 		this.guid = guid;
 	}
+	
+	public void setRoleId(long roleId) {
+		this.roleId = roleId;
+	}
+
+	public void setGiftBean(GiftBean giftBean) {
+		this.giftBean = giftBean;
+	}
+
+	public void setGiftUId(String giftUId) {
+		this.giftUId = giftUId;
+	}
 
 	public ChatUserSimpleBean getUserBean() {
 		if(userBean==null){
@@ -125,6 +140,7 @@ public class PacketGiftMsg extends PacketBase {
 			userBean.setCaifuLevel(caifuLevel);
 			userBean.setUserType(userType);
 			userBean.setGuid(guid);
+			userBean.setRoleId(roleId);
 		}
 		return userBean;
 	}
@@ -132,6 +148,7 @@ public class PacketGiftMsg extends PacketBase {
 	public GiftBean getGiftBean() {
 		if(giftBean==null){
 			giftBean = new GiftBean();
+			giftBean.setGiftUid(giftUId);
 			giftBean.setIsFree(isFree);
 			giftBean.setGiftId(giftId);
 			giftBean.setGiftName(giftName);
