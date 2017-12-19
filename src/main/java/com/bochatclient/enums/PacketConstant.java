@@ -1,6 +1,9 @@
 package com.bochatclient.enums;
 
+import com.bochatclient.packet.PacketActivityGift;
+import com.bochatclient.packet.PacketActivitySDMsg;
 import com.bochatclient.packet.PacketAdminInfo;
+import com.bochatclient.packet.PacketAudioStateMsg;
 import com.bochatclient.packet.PacketBannedInfo;
 import com.bochatclient.packet.PacketBroadcast;
 import com.bochatclient.packet.PacketChatInfo;
@@ -60,6 +63,14 @@ public class PacketConstant {
 		public static final int SEND_GIFT_FAIL = (111<<16)+1;	// action 111 type 1 送礼结果返回
 		public static final int USER_INFO = (4<<16) + 2;     // action 4 type 2       用户详细信息
 		public static final int FREE_GIFT_MSG = (102<<16) + 1;     // action 102 type 1     免费礼物消息
+		public static final int AUDIO_STATE_MSG = (25<<16) + 1;     // action 25 type 1     开关麦克风
+		
+		
+		
+		
+		//圣诞节活动
+		public static final int ACTIVITY_SD_MSG = (225<<16) + 1;     // action 225 type 1     圣诞节活动
+		public static final int ACTIVITY_Gift_MSG = (83<<16) + 1;     // action 83 type 1    圣诞节礼物消息
 	}
 	
 	// 发送消息类型
@@ -135,7 +146,10 @@ public class PacketConstant {
 		SUB_TOTAL_MSG(PacketType.SUB_TOTAL,PacketSubCount.class),
 		SEND_GIFT_RET(PacketType.SEND_GIFT_FAIL,PacketGiftFail.class),
 		USER_INFO_MSG(PacketType.USER_INFO,PacketUserInfo.class),
-		FREE_GIFT_MSG(PacketType.FREE_GIFT_MSG,PacketGiftFMsg.class);
+		FREE_GIFT_MSG(PacketType.FREE_GIFT_MSG,PacketGiftFMsg.class),
+		AUDIO_STATE_DEMO(PacketType.AUDIO_STATE_MSG,PacketAudioStateMsg.class),
+		ACTIVITY_GIFT_MSG(PacketType.ACTIVITY_Gift_MSG,PacketActivityGift.class),
+		ACTIVITY_SD_MSG(PacketType.ACTIVITY_SD_MSG,PacketActivitySDMsg.class);
 		
 		private int key;
 		private Class clazz;
