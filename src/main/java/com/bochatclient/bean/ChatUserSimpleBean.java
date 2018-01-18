@@ -33,10 +33,19 @@ public class ChatUserSimpleBean {
 	private String roomRoles;//房间角色,一个人可能承担多个角色
 	@Mapping("a2")
 	private long sortNum;//粉丝等级
+
+	@Mapping("c4")
+	private String hasQs;//情圣标识-0-没尾灯/1-有尾灯
 	
 	@Mapping(value="g",type="object")
 	private ExtraInfoBean extraInfo;
 	
+	public String getHasQs() {
+		return hasQs;
+	}
+	public void setHasQs(String hasQs) {
+		this.hasQs = hasQs;
+	}
 	public int getUserId() {
 		return userId;
 	}

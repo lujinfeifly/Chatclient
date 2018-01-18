@@ -19,7 +19,7 @@ public class Main implements MsgListener, ErrorListener{
 	    	client.start();//开始连接
 	    	client.setMsgListener(a);
 			client.setErrorListener(a);
-			UserEnterBean bean = new UserEnterBean("2323", "hehe", "2200012003", "我是谁");
+			UserEnterBean bean = new UserEnterBean("2323", "hehe", "2200017102", "我是谁");
 	    	client.enterroom(bean);//进入直播间
 		}catch(Exception e){
 			e.printStackTrace();

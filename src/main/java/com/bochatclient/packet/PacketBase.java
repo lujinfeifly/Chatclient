@@ -8,6 +8,7 @@ public class PacketBase {
 	protected String retmsg;
 	protected int type;//packet包类型
 	protected int version;
+	protected Object extend;
 	
 	public int getRetcode() {
 		return retcode;
@@ -33,5 +34,10 @@ public class PacketBase {
 	public void setVersion(int version) {
 		this.version = version;
 	}
-	
+	public Object getExtend() {
+		return extend;
+	}
+	public void setExtend(Object extend) {
+		this.extend = extend;
+	}
 }
