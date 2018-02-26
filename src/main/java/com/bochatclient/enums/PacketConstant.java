@@ -1,21 +1,30 @@
 package com.bochatclient.enums;
 
+import com.bochatclient.packet.PacketActivityGift;
+import com.bochatclient.packet.PacketActivityNYMsg;
+import com.bochatclient.packet.PacketActivitySDMsg;
 import com.bochatclient.packet.PacketAdminInfo;
+import com.bochatclient.packet.PacketAudioStateMsg;
 import com.bochatclient.packet.PacketBannedInfo;
 import com.bochatclient.packet.PacketBroadcast;
 import com.bochatclient.packet.PacketChatInfo;
 import com.bochatclient.packet.PacketFPMsg;
 import com.bochatclient.packet.PacketGiftComboMsg;
+import com.bochatclient.packet.PacketGiftFMsg;
 import com.bochatclient.packet.PacketGiftFail;
 import com.bochatclient.packet.PacketGiftMsg;
+import com.bochatclient.packet.PacketGiveRepMsg;
 import com.bochatclient.packet.PacketHeadline;
 import com.bochatclient.packet.PacketLiveEnd;
 import com.bochatclient.packet.PacketLiveStart;
 import com.bochatclient.packet.PacketLoginRet;
 import com.bochatclient.packet.PacketLogoutRet;
 import com.bochatclient.packet.PacketOnlineCountRet;
+import com.bochatclient.packet.PacketOpenRepMsg;
+import com.bochatclient.packet.PacketRoomRankingMsg;
 import com.bochatclient.packet.PacketSubCount;
 import com.bochatclient.packet.PacketSysMsg;
+import com.bochatclient.packet.PacketTakeRepMsg;
 import com.bochatclient.packet.PacketUserCharm;
 import com.bochatclient.packet.PacketUserInfo;
 import com.bochatclient.packet.PacketUserList;
@@ -58,6 +67,22 @@ public class PacketConstant {
 		public static final int SUB_TOTAL = (66<<16)+ 1;   // action 66 type 1 关注数同步
 		public static final int SEND_GIFT_FAIL = (111<<16)+1;	// action 111 type 1 送礼结果返回
 		public static final int USER_INFO = (4<<16) + 2;     // action 4 type 2       用户详细信息
+		public static final int FREE_GIFT_MSG = (102<<16) + 1;     // action 102 type 1     免费礼物消息
+		public static final int AUDIO_STATE_MSG = (25<<16) + 1;     // action 25 type 1     开关麦克风
+		
+		public static final int GIVE_REP_MSG = (105<<16) + 1;     // action 105 type 1    打赏红包消息
+		public static final int OPEN_REP_MSG = (106<<16) + 1;     // action 106 type 1    开启红包消息
+		public static final int TAKE_REP_MSG = (107<<16) + 1;     // action 107 type 1    领取红包消息
+		
+		public static final int LM_START = (103<<16) + 1;    // action 103 type 1    开启连麦
+		public static final int LM_END = (104<<16) + 1;    // action 104 type 1    关闭连麦
+		//圣诞节活动
+		public static final int ACTIVITY_SD_MSG = (225<<16) + 1;     // action 225 type 1     圣诞节活动
+		public static final int ACTIVITY_Gift_MSG = (83<<16) + 1;     // action 83 type 1    圣诞节礼物消息
+		
+		
+		public static final int ROOM_RANKING = (108<<16) + 1;     // action 108 type 1    房间排行榜
+		public static final int ACTIVITY_NY_MSG = (109<<16) + 1;     // action 109 type 1    春节活动（新春装上爱）
 	}
 	
 	// 发送消息类型
@@ -112,6 +137,8 @@ public class PacketConstant {
 		SYST_MSG(PacketType.SYST_MSG,PacketSysMsg.class),
 		LIVE_START(PacketType.LIVE_START,PacketLiveStart.class),
 		LIVE_END(PacketType.LIVE_END,PacketLiveEnd.class),
+		LM_START(PacketType.LM_START,PacketLiveStart.class),
+		LM_END(PacketType.LM_END,PacketLiveEnd.class),
 		GIFT_MSG(PacketType.GIFT_MSG,PacketGiftMsg.class),
 		GIFT_COMBO_MSG(PacketType.GIFT_COMBO_MSG,PacketGiftComboMsg.class),
 		LOGIN_RET(PacketType.LOGIN_RET,PacketLoginRet.class),
@@ -132,8 +159,16 @@ public class PacketConstant {
 		YB_TOTAL_MSG(PacketType.YUANBAO_TOTAL,PacketYbTotal.class),
 		SUB_TOTAL_MSG(PacketType.SUB_TOTAL,PacketSubCount.class),
 		SEND_GIFT_RET(PacketType.SEND_GIFT_FAIL,PacketGiftFail.class),
-		USER_INFO_MSG(PacketType.USER_INFO,PacketUserInfo.class);
-		
+		USER_INFO_MSG(PacketType.USER_INFO,PacketUserInfo.class),
+		FREE_GIFT_MSG(PacketType.FREE_GIFT_MSG,PacketGiftFMsg.class),
+		AUDIO_STATE_DEMO(PacketType.AUDIO_STATE_MSG,PacketAudioStateMsg.class),
+		ACTIVITY_GIFT_MSG(PacketType.ACTIVITY_Gift_MSG,PacketActivityGift.class),
+		ACTIVITY_SD_MSG(PacketType.ACTIVITY_SD_MSG,PacketActivitySDMsg.class),
+		ACTIVITY_NY_MSG(PacketType.ACTIVITY_NY_MSG,PacketActivityNYMsg.class),
+		GIVE_REP_MSG(PacketType.GIVE_REP_MSG,PacketGiveRepMsg.class),
+		OPEN_REP_MSG(PacketType.OPEN_REP_MSG,PacketOpenRepMsg.class),
+		TAKE_REP_MSG(PacketType.TAKE_REP_MSG,PacketTakeRepMsg.class),
+		ROOM_RANKING(PacketType.ROOM_RANKING,PacketRoomRankingMsg.class);
 		
 		private int key;
 		private Class clazz;

@@ -1,12 +1,11 @@
 package com.bochatclient.enter;
 
-public class TalkBean implements SendBean{
+public class TalkBean extends SendBean{
 	private String _method_ = "SendPubMsg";
 	private String toMasterId = "";
 	private String toMasterNick = "";
 	private String ct = "";
 	private String pub = "0";
-	private String v="0";
 	
 	public TalkBean(String msg,int action,String toMasterId,String toMasterNick) {
 		this.ct = msg;
@@ -39,10 +38,6 @@ public class TalkBean implements SendBean{
 
 	public String getPub() {
 		return pub;
-	}
-
-	public String getV() {
-		return v;
 	}
 	
 }

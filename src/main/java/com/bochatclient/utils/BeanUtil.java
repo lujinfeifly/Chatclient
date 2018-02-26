@@ -15,13 +15,31 @@ public class BeanUtil {
 	 * @return
 	 */
 	public static String beanToJson(Object object){
+		
+		Field[] supfields = null;
+		if(!object.getClass().getSuperclass().equals(Object.class)){
+			supfields = object.getClass().getSuperclass().getDeclaredFields();
+		}
+		
 		Field[] fields = object.getClass().getDeclaredFields();
+		int supfieldLength = 0;
+		if(supfields!=null){
+			supfieldLength = supfields.length;
+		}
+		
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
 		
-		for(int i=0,size=fields.length;i<size;i++){
-			Field field = fields[i];
+		
+		for(int i=0,size=fields.length,consize=(size+supfieldLength) ;i<consize;i++){
+			
+			Field field = null;
+			if(i<size){
+				field = fields[i];
+			}else{
+				field = supfields[i-size];
+			}
 			field.setAccessible(true);//允许访问私有成员
 			
 			String fieldName = field.getName();
@@ -42,14 +60,14 @@ public class BeanUtil {
 				case "String":
 					sb.append("\""+fieldName+"\":");
 					sb.append("\""+value.toString()+"\"");
-					if(i<size-1){
+					if(i<consize-1){
 						sb.append(",");
 					}
 					break;
 				default:
 					sb.append("\""+fieldName+"\":");
 					sb.append(value.toString());
-					if(i<size-1){
+					if(i<consize-1){
 						sb.append(",");
 					}
 					break;

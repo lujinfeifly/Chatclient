@@ -1,5 +1,7 @@
 package com;
 
+import org.json.JSONObject;
+
 import com.bochatclient.BoChat;
 import com.bochatclient.BoChatClient;
 import com.bochatclient.enter.UserEnterBean;
@@ -17,7 +19,7 @@ public class Main implements MsgListener, ErrorListener{
 	    	client.start();//开始连接
 	    	client.setMsgListener(a);
 			client.setErrorListener(a);
-			UserEnterBean bean = new UserEnterBean("2323", "hehe", "2200012003", "我是谁");
+			UserEnterBean bean = new UserEnterBean("2323", "hehe", "2200017102", "我是谁");
 	    	client.enterroom(bean);//进入直播间
 		}catch(Exception e){
 			e.printStackTrace();
@@ -38,6 +40,13 @@ public class Main implements MsgListener, ErrorListener{
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}
+		
+		JSONObject job = new JSONObject();
+		job.put("renms", "123");
+
+		int name = job.optInt("age");
+		System.out.println(name);
+		
 //		main.client.sendQueryUserInfo("123");
 //		main.client.sendMessage("ssssssssssssssssssss",0,"","");
 //		main.client.sendQueryList("1", "20", "1");

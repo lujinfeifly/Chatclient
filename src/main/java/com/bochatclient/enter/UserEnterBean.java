@@ -1,6 +1,6 @@
 package com.bochatclient.enter;
 
-public class UserEnterBean implements SendBean{
+public class UserEnterBean extends SendBean{
 	
 	private String _method_ = "Enter";
 	private int type = 0;
@@ -12,7 +12,6 @@ public class UserEnterBean implements SendBean{
 	private String md5 = "RTYUI";
 	private String terminal="2";
 	private String isReConnect="0";
-	private String v="0";
 	
 	public UserEnterBean(String uid, String token, String rid, String uname) {
 		this.uid = uid;
@@ -68,9 +67,6 @@ public class UserEnterBean implements SendBean{
 	}
 	public void setIsReConnect(String isReConnect) {
 		this.isReConnect = isReConnect;
-	}
-	public String getV() {
-		return v;
 	}
 
 	@Override
