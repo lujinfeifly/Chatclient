@@ -351,7 +351,6 @@ public class BoChat {
     public void enterroom(UserEnterBean loginBean) {
     	boolean flag = true;
     	while(flag){
-    		System.out.println("client connected state :"+client.isConnected());
     		if(client.isConnected()){
     			this.loginBean = loginBean;
     			try {

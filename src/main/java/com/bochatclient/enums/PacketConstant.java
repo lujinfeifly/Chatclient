@@ -21,6 +21,7 @@ import com.bochatclient.packet.PacketLoginRet;
 import com.bochatclient.packet.PacketLogoutRet;
 import com.bochatclient.packet.PacketOnlineCountRet;
 import com.bochatclient.packet.PacketOpenRepMsg;
+import com.bochatclient.packet.PacketRoomRankingMsg;
 import com.bochatclient.packet.PacketSubCount;
 import com.bochatclient.packet.PacketSysMsg;
 import com.bochatclient.packet.PacketTakeRepMsg;
@@ -80,6 +81,7 @@ public class PacketConstant {
 		public static final int ACTIVITY_Gift_MSG = (83<<16) + 1;     // action 83 type 1    圣诞节礼物消息
 		
 		
+		public static final int ROOM_RANKING = (108<<16) + 1;     // action 108 type 1    房间排行榜
 		public static final int ACTIVITY_NY_MSG = (109<<16) + 1;     // action 109 type 1    春节活动（新春装上爱）
 	}
 	
@@ -165,7 +167,8 @@ public class PacketConstant {
 		ACTIVITY_NY_MSG(PacketType.ACTIVITY_NY_MSG,PacketActivityNYMsg.class),
 		GIVE_REP_MSG(PacketType.GIVE_REP_MSG,PacketGiveRepMsg.class),
 		OPEN_REP_MSG(PacketType.OPEN_REP_MSG,PacketOpenRepMsg.class),
-		TAKE_REP_MSG(PacketType.TAKE_REP_MSG,PacketTakeRepMsg.class);
+		TAKE_REP_MSG(PacketType.TAKE_REP_MSG,PacketTakeRepMsg.class),
+		ROOM_RANKING(PacketType.ROOM_RANKING,PacketRoomRankingMsg.class);
 		
 		private int key;
 		private Class clazz;
