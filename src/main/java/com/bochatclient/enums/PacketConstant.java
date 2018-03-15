@@ -21,6 +21,9 @@ import com.bochatclient.packet.PacketLoginRet;
 import com.bochatclient.packet.PacketLogoutRet;
 import com.bochatclient.packet.PacketOnlineCountRet;
 import com.bochatclient.packet.PacketOpenRepMsg;
+import com.bochatclient.packet.PacketPkProgressMsg;
+import com.bochatclient.packet.PacketPkResultMsg;
+import com.bochatclient.packet.PacketPkTimeMsg;
 import com.bochatclient.packet.PacketRoomRankingMsg;
 import com.bochatclient.packet.PacketSubCount;
 import com.bochatclient.packet.PacketSysMsg;
@@ -83,6 +86,11 @@ public class PacketConstant {
 		
 		public static final int ROOM_RANKING = (108<<16) + 1;     // action 108 type 1    房间排行榜
 		public static final int ACTIVITY_NY_MSG = (109<<16) + 1;     // action 109 type 1    春节活动（新春装上爱）
+		
+		public static final int ACTIVITY_PKTIME_MSG = (120<<16) + 1;     // action 120 type 1    PK时间同步消息
+		public static final int ACTIVITY_PKPROGRESS_MSG = (121<<16) + 1;     // action 121 type 1    PK 进度条下发
+		public static final int ACTIVITY_PKRESULT_MSG = (122<<16) + 1;     // action 122 type 1    PK result
+		
 	}
 	
 	// 发送消息类型
@@ -129,6 +137,22 @@ public class PacketConstant {
 		public static final int ROLE_FG = 4;//房管
 	}
 	
+	// PKTime 同步状态
+	public static class PkTimeType{
+		public static final int PKTIME_READY = 1;//开始倒计时
+		public static final int PKTIME_START = 2;//开始
+		public static final int PKTIME_SYNC = 3;//同步时间
+		public static final int PKTIME_DOWNING = 4;//结束倒计时
+		public static final int PKTIME_END = 5;//结束
+	}
+
+	// PKRESULT 贡献类型
+	public static class PkResultType{
+		public static final int PKRESULT_TOP = 1;//贡献最高
+		public static final int PKRESULT_FIRST = 2;//一血
+		public static final int PKRESULT_GOD = 3;//神补刀
+	}
+	
 	public enum PacketClassEnum{
 		USER_MSG(PacketType.USER_MSG,PacketUserMsg.class),
 		USER_MSG_2(PacketType.USER_MSG_2,PacketUserMsg.class),
@@ -168,7 +192,10 @@ public class PacketConstant {
 		GIVE_REP_MSG(PacketType.GIVE_REP_MSG,PacketGiveRepMsg.class),
 		OPEN_REP_MSG(PacketType.OPEN_REP_MSG,PacketOpenRepMsg.class),
 		TAKE_REP_MSG(PacketType.TAKE_REP_MSG,PacketTakeRepMsg.class),
-		ROOM_RANKING(PacketType.ROOM_RANKING,PacketRoomRankingMsg.class);
+		ROOM_RANKING(PacketType.ROOM_RANKING,PacketRoomRankingMsg.class),
+		ACTIVITY_PKTIME_MSG(PacketType.ACTIVITY_PKTIME_MSG,PacketPkTimeMsg.class),
+		ACTIVITY_PKPROGRESS_MSG(PacketType.ACTIVITY_PKPROGRESS_MSG,PacketPkProgressMsg.class),
+		ACTIVITY_PKRESULT_MSG(PacketType.ACTIVITY_PKRESULT_MSG,PacketPkResultMsg.class);
 		
 		private int key;
 		private Class clazz;
